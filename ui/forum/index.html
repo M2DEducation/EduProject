@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+
+        <title>Layout</title>
+        <style>
+            .nav-link:hover{
+                background:rgba(0,0,0,0.4);
+            }
+            .sidenav {
+                background:#252729;
+                min-height: 100vh;
+            }
+            @media screen(max-width: 992px) {
+                .sidenav {
+                    background: #252729;
+                    min-height: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2 sidenav">
+                    <div class="">
+                        <div class="p-3 navbar-brand text-white text-center">
+                            <i class="fas fa-atom"></i> CoreBasics LMS
+                        </div>
+                        <div class="border-bottom border-secondary mb-2 text-muted">
+                            Shop Courses (future feature)
+                        </div>
+                        <nav class="nav flex-column text-white">
+                            <a class="nav-link text-white" href="#">
+                                <i class="fas fa-search text-white"></i> Browse Courses
+                            </a>
+                            <span class="mt-2 mb-2 border-secondary border-bottom text-muted">
+                                Admin Actions
+                            </span>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin">
+                                <i class="fas fa-chart-area"></i> Admin Dashboard
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin/record-management">
+                                <i class="fas fa-cogs"></i> Record Management
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin/record-management">
+                                <i class="fas fa-cogs"></i> Create Class
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin/announcements">
+                                <i class="fas fa-globe-americas"></i> Send Announcement
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin/invoices">
+                                <i class="fas fa-file-invoice-dollar"></i> Manage Invoices
+                            </a>
+                            <span class="mt-2 mb-2 border-secondary border-bottom text-muted">
+                                Main Applications
+                            </span>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/">
+                                <i class="fas fa-chart-pie text-white"></i> Dashboard
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/calendar">
+                                <i class="far fa-calendar-alt text-white"></i> Calendar
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/courses">
+                                <i class="fas fa-chalkboard-teacher text-white"></i> Courses
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/students">
+                                <i class="fas fa-user-graduate text-white"></i> Students
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/assignments">
+                                <i class="fas fa-clipboard-list text-white"></i> Assignments
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/grades">
+                                <i class="fas fa-spell-check text-white"></i> Grades
+                            </a>
+                            <span class="mt-2 mb-2 border-secondary border-bottom text-muted" href="#">
+                                Messaging Services
+                            </span>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/messages">
+                                <i class="far fa-envelope text-white"></i> Messages
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/forum">
+                                <i class="far fa-comments text-white"></i> Forum
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
+                    <nav class="navbar navbar-light border-bottom">
+                        <a class="navbar-brand">Forum</a>
+                        <form class="form-inline">
+                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                          <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </nav>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="m-3 p-3 border rounded latest-announcements" style="background:white;">
+                                    <div class="h5">Announcements</div>
+                                    <div class="p-2 border-top">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr>
+                                                  <td class="border-top-0"><img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;"></td>
+                                                  <td class="border-top-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</td>
+                                                  <td class="border-top-0">Today 9:42 p.m.</td>
+                                                </tr>
+                                                <tr>
+                                                  <td><img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;"></td>
+                                                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</td>
+                                                  <td>Today 9:42 p.m.</td>
+                                                </tr>
+                                                <tr>
+                                                  <td><img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;"></td>
+                                                  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</td>
+                                                  <td>Today 9:42 p.m.</td>
+                                                </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="m-3 p-3 border rounded quick-links" style="background:white;">
+                                    <div class="h5">Quick Actions</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Create Class</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Upload Student Records</div class="border-bottom">
+                                    <div class="p-2 border-top"><i class="fas fa-globe-americas"></i> Send Global Announcement</div class="border-bottom">
+                                    <div class="p-2 border-top"><i class="fas fa-chart-line"></i> Reports</div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

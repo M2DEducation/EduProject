@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+
+        <title>Layout</title>
+        <style>
+            .nav-link:hover{
+                background:rgba(0,0,0,0.4);
+            }
+            .sidenav {
+                background:#252729;
+                min-height: 100vh;
+            }
+            @media screen(max-width: 992px) {
+                .sidenav {
+                    background: #252729;
+                    min-height: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2 sidenav">
+                    <div class="">
+                        <div class="p-3 navbar-brand text-white text-center">
+                            <i class="fas fa-atom"></i> CoreBasics LMS
+                        </div>
+                        <div class="border-bottom border-secondary mb-2 text-muted">
+                            Shop Courses (future feature)
+                        </div>
+                        <nav class="nav flex-column text-white">
+                            <a class="nav-link text-white" href="#">
+                                <i class="fas fa-search text-white"></i> Browse Courses
+                            </a>
+                            <span class="mt-2 mb-2 border-secondary border-bottom text-muted">
+                                Admin Actions
+                            </span>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin">
+                                <i class="fas fa-chart-area"></i> Admin Dashboard
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin/record-management">
+                                <i class="fas fa-cogs"></i> Record Management
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin/record-management">
+                                <i class="fas fa-cogs"></i> Create Class
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin/announcements">
+                                <i class="fas fa-globe-americas"></i> Send Announcement
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/admin/invoices">
+                                <i class="fas fa-file-invoice-dollar"></i> Manage Invoices
+                            </a>
+                            <span class="mt-2 mb-2 border-secondary border-bottom text-muted">
+                                Main Applications
+                            </span>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/">
+                                <i class="fas fa-chart-pie text-white"></i> Dashboard
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/calendar">
+                                <i class="far fa-calendar-alt text-white"></i> Calendar
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/courses">
+                                <i class="fas fa-chalkboard-teacher text-white"></i> Courses
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/students">
+                                <i class="fas fa-user-graduate text-white"></i> Students
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/assignments">
+                                <i class="fas fa-clipboard-list text-white"></i> Assignments
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/grades">
+                                <i class="fas fa-spell-check text-white"></i> Grades
+                            </a>
+                            <span class="mt-2 mb-2 border-secondary border-bottom text-muted" href="#">
+                                Messaging Services
+                            </span>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/messages">
+                                <i class="far fa-envelope text-white"></i> Messages
+                            </a>
+                            <a class="nav-link text-white" href="https://www.kellisonglobal.com/business-templates/education/ui/forum">
+                                <i class="far fa-comments text-white"></i> Forum
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
+                    <nav class="navbar navbar-light border-bottom">
+                        <span class="">
+                            <span class="navbar-brand">Admin Dashboard - Record Management</span>
+                            <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                  <label class="custom-control-label" for="customSwitch1">Admin View</label>
+                            </div>
+                        </span>
+                        <form class="form-inline">
+                            <a class="text-dark mr-3" href=""><i class="far fa-user-circle"></i></a>
+                            <a class="text-dark mr-3" href=""><i class="far fa-bell"></i></a>
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </nav>
+                    <div class="container-fluid">
+                        <!-- <div class="row">
+                            <div class="col-lg-9">
+                                <div class="m-3 p-3 border rounded quick-links" style="background:white;">
+                                    <div class="h5">Admin Actions</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Upload Student Records</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Create Class</div>
+                                    <div class="p-2 border-top"><i class="fas fa-globe-americas"></i> Send Global Announcement</div>
+                                    <div class="p-2 border-top"><i class="fas fa-chart-line"></i> Reports</div>
+                                </div> 
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="m-3 p-3 border rounded quick-links" style="background:white;">
+                                    <div class="h5">Quick Actions</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Upload Student Records</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Create Class</div>
+                                    <div class="p-2 border-top"><i class="fas fa-globe-americas"></i> Send Global Announcement</div>
+                                    <div class="p-2 border-top"><i class="fas fa-chart-line"></i> Reports</div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-lg-12 p-3">
+                                <ul class="list-group list-group-horizontal">
+                                  <li class="list-group-item border-0">Admins</li>
+                                  <li class="list-group-item border-0">Teachers</li>
+                                  <li class="list-group-item border-top-0 border-left-0 border-right-0 border-info" style="border-bottom-width: 5px;">Students</li>
+                                  <li class="list-group-item border-0">Courses</li>
+                                  <li class="list-group-item border-0">Announcements</li>
+                                  <li class="list-group-item border-0">
+                                    <span data-toggle="modal" data-target="#customList" style="cursor: pointer;">
+                                      <i class="fas fa-plus"></i> Custom List
+                                    </span>
+                                  </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#">
+                                  Invite All New
+                                </button>
+                                <button type="button" class="btn btn-info mr-2" data-toggle="modal" data-target="#newRecord">
+                                  Add New
+                                </button>
+                                <button type="button" class="btn btn-info mr-2" data-toggle="modal" data-target="#bulkImport">
+                                  Import Spreadsheet
+                                </button>
+                                <button type="button" class="btn btn-info mr-2" data-toggle="modal" data-target="#exportSpreadsheet">
+                                  Export List
+                                </button>
+                                <button type="button" class="btn btn-info mr-2" data-toggle="modal" data-target="#requestHelp">
+                                  Request Help
+                                </button>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="input-group mb-3">
+                                  <select class="custom-select" id="inputGroupSelect01">
+                                    <option selected>Filter View...</option>
+                                    <option value="1">Active</option>
+                                    <option value="2">Transferred</option>
+                                    <option value="3">Graduated</option>
+                                    <option value="3">Expelled</option>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table bg-white mt-3 border rounded table-responsive-lg">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">ID</th>
+                                      <th scope="col">Photo</th>
+                                      <th scope="col">Full Name</th>
+                                      <th scope="col">Phone Number</th>
+                                      <th scope="col">Email Address</th>
+                                      <th scope="col">Role</th>
+                                      <th scope="col">Status</th>
+                                      <th scope="col" class="text-center">Action</th>
+                                      <th scope="col" class="text-center">Invite</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                        <td  class="align-middle">#1</td>
+                                        <td  class="align-middle">
+                                            <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                        </td>
+                                        <td  class="align-middle">John James Rambo</td>
+                                        <td  class="align-middle">(123) 456-7890</td>
+                                        <td  class="align-middle">rambo@rambo.com</td>
+                                        <td  class="align-middle">Student</td>
+                                        <td  class="align-middle"><span class="badge badge-pill badge-success">Active</span></td>
+                                        <td  class="text-center align-middle">
+                                            <i class="fas fa-user-edit m-2"></i>
+                                            <i class="far fa-comments m-2"></i>
+                                            <i class="fas fa-trash m-2"></i>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <i class="fas fa-user-check text-success"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  class="align-middle">#2</td>
+                                        <td  class="align-middle">
+                                            <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/e8/e879127befd18f6dcbd2f336234b62b393348c74_full.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                        </td>
+                                        <td  class="align-middle">John Wick</td>
+                                        <td  class="align-middle">(321) 654-0987</td>
+                                        <td  class="align-middle">johnwick@johnwick.com</td>
+                                        <td  class="align-middle">Student</td>
+                                        <td  class="align-middle"><span class="badge badge-pill badge-secondary">Invited</span></td>
+                                        <td  class="text-center align-middle">
+                                            <i class="fas fa-user-edit m-2"></i>
+                                            <i class="far fa-comments m-2"></i>
+                                            <i class="fas fa-trash m-2"></i>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <button class="btn btn-secondary"><i class="fas fa-user-plus"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td  class="align-middle">#3</td>
+                                        <td  class="align-middle">
+                                            <img src="https://i.pinimg.com/474x/61/ab/df/61abdf4ea32577c24ea808c10f82613f.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                        </td>
+                                        <td  class="align-middle">Tony Stark</td>
+                                        <td  class="align-middle">(231) 564-8907</td>
+                                        <td  class="align-middle">ironman@ironman.com</td>
+                                        <td  class="align-middle">Student</td>
+                                        <td  class="align-middle"><span class="badge badge-pill badge-info">Graduated</span></td>
+                                        <td  class="text-center align-middle">
+                                            <i class="fas fa-user-edit m-2"></i>
+                                            <i class="far fa-comments m-2"></i>
+                                            <i class="fas fa-trash m-2"></i>
+                                        </td>
+                                        <td class="text-center align-middle">
+                                            <i class="fas fa-user-check text-success"></i>
+                                        </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Add New -->
+                        <div class="modal fade" id="newRecord" tabindex="-1" role="dialog" aria-labelledby="New Record" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add New Record</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">ID</label>
+                                    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="123456">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlFile1">Photo</label>
+                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">First Name</label>
+                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="John">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">Last Name</label>
+                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Smith">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">Phone Number</label>
+                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="123-456-7890">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">Email address</label>
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">Role</label>
+                                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" value="Student" readonly>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="customList" tabindex="-1" role="dialog" aria-labelledby="Create Custom List" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Create a Custom List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">List Name</label>
+                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Schedules">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">Number of Columns</label>
+                                    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="5">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlInput1">Column 1 Name</label>
+                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ID">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Column 1 Type</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                      <option>Number</option>
+                                      <option>Text</option>
+                                      <option>Flag</option>
+                                      <option>Image</option>
+                                      <option>Phone Number</option>
+                                      <option>Email</option>
+                                      <option>...</option>
+                                    </select>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Import Spreadsheet -->
+                        <div class="modal fade" id="bulkImport" tabindex="-1" role="dialog" aria-labelledby="Bulk Record Import From Spreadsheet" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Upload Spreadsheet</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlFile1">Supported File Types: .xlsx, .csv</label>
+                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Import</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Export List -->
+                        <div class="modal fade" id="exportSpreadsheet" tabindex="-1" role="dialog" aria-labelledby="Export Spreadsheet" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Export List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlSelect1">File Type</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                      <option>Excel</option>
+                                      <option>CSV (comma separated)</option>
+                                      <option>Word</option>
+                                    </select>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Export List</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Request Help Form -->
+                        <div class="modal fade" id="requestHelp" tabindex="-1" role="dialog" aria-labelledby="Request Help" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Submit Help Request</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Request Type</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                      <option>Bulk Record Transfer</option>
+                                      <option>Unable to upload file</option>
+                                      <option>Other (provide information below)</option>
+                                    </select>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Additional Information</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                  </div>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Submit</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
