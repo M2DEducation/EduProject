@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+
+        <title>Layout</title>
+        <style>
+            .nav-link:hover{
+                background:rgba(0,0,0,0.4);
+            }
+            .sidenav {
+                background:#252729;
+                min-height: 100vh;
+            }
+            @media screen(max-width: 992px) {
+                .sidenav {
+                    background: #252729;
+                    min-height: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                {% include 'base-templates/dashboard-sidebar.html' %}
+                <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
+                    <nav class="navbar navbar-light border-bottom">
+                        <span class="navbar-brand">
+                          Students
+                        </span>
+                        <span class="form-inline">
+                            <a class="text-dark mr-3" href="{% url 'profile' %}"><i class="far fa-user-circle"></i></a>
+                            <a class="text-dark mr-3" href="{% url 'notifications' %}"><i class="far fa-bell"></i></a>
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                            <form action="{% url 'logoutuser' %}" method="POST" class="ml-3">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" type="submit">Logout</button>
+                            </form>
+                        </span>
+                    </nav>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="mt-3">
+                                    <ul class="list-group list-group-horizontal mb-3">
+                                        <li class="list-group-item border-top-0 border-left-0 border-right-0 border-info" style="border-bottom-width: 5px;">Intro To English</li>
+                                        <li class="list-group-item border-0">Intro To Spanish</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jumbotron jumbotron-fluid mb-4" style="background: url('https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940') no-repeat;background-size: 100%;background-position: center;">
+                        <div class="container mb-5 mt-5" style="background: rgba(0,0,0,0.5)">
+                            <div class="row">
+                                <div class="col-md-12 p-4 text-white">
+                                    <h1 class="display-4 text-center">Intro To English</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h5>Teacher Invite Code</h5>
+                                <div class="p-3 border bg-white">
+                                    <div class="mb-3">
+                                        <strong>Invite Code:</strong> <a href="" class="text-dark">12345 <i class="far fa-copy"></i></a>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-info">Send Invites</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-12">
+                                <h5>My Students</h5>
+                                <table class="table bg-white border rounded table-responsive-lg">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Photo</th>
+                                        <th scope="col">Full Name</th>
+                                        <th scope="col">Phone Number</th>
+                                        <th scope="col">Email Address</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Request Status</th>
+                                        <th scope="col" class="text-center">Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                          <td  class="align-middle">
+                                              <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                          </td>
+                                          <td  class="align-middle">John James Rambo</td>
+                                          <td  class="align-middle">(123) 456-7890</td>
+                                          <td  class="align-middle">rambo@rambo.com</td>
+                                          <td  class="align-middle">Student</td>
+                                          <td  class="align-middle"><span class="badge badge-pill badge-success">Active</span></td>
+                                          <td  class="text-center align-middle">
+                                              <i class="far fa-comments m-2"></i>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td  class="align-middle">
+                                              <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/e8/e879127befd18f6dcbd2f336234b62b393348c74_full.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                          </td>
+                                          <td  class="align-middle">John Wick</td>
+                                          <td  class="align-middle">(321) 654-0987</td>
+                                          <td  class="align-middle">johnwick@johnwick.com</td>
+                                          <td  class="align-middle">Student</td>
+                                          <td  class="align-middle"><button class="btn btn-info mr-1">Approve</button><button class="btn btn-danger">Reject</button></td>
+                                          <td  class="text-center align-middle">
+                                              <i class="far fa-comments m-2"></i>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td  class="align-middle">
+                                              <img src="https://i.pinimg.com/474x/61/ab/df/61abdf4ea32577c24ea808c10f82613f.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                          </td>
+                                          <td  class="align-middle">Tony Stark</td>
+                                          <td  class="align-middle">(231) 564-8907</td>
+                                          <td  class="align-middle">ironman@ironman.com</td>
+                                          <td  class="align-middle">Student</td>
+                                          <td  class="align-middle"><button class="btn btn-info mr-1">Approve</button><button class="btn btn-danger">Reject</button></td>
+                                          <td  class="text-center align-middle">
+                                              <i class="far fa-comments m-2"></i>
+                                          </td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

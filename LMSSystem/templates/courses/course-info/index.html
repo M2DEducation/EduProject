@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+
+        <title>Courses</title>
+        <style>
+            .nav-link:hover{
+                background:rgba(0,0,0,0.4);
+            }
+            .sidenav {
+                background:#252729;
+                min-height: 100vh;
+            }
+            @media screen(max-width: 992px) {
+                .sidenav {
+                    background: #252729;
+                    min-height: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                {% include 'base-templates/dashboard-sidebar.html' %}
+                <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
+                    <nav class="navbar navbar-light border-bottom">
+                        <span class="navbar-brand">
+                            Courses
+                        </span>
+                        <span class="form-inline">
+                            <a class="text-dark mr-3" href="{% url 'profile' %}"><i class="far fa-user-circle"></i></a>
+                            <a class="text-dark mr-3" href="{% url 'notifications' %}"><i class="far fa-bell"></i></a>
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                            <form action="{% url 'logoutuser' %}" method="POST" class="ml-3">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" type="submit">Logout</button>
+                            </form>
+                        </span>
+                    </nav>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12 p-3">
+                                <ul class="list-group list-group-horizontal">
+                                  <li class="text-center list-group-item border-0">Intro To Spanish</li>
+                                  <li class="text-center list-group-item border-top-0 border-left-0 border-right-0 border-info" style="border-bottom-width: 5px;">Intro To English</li>
+                                </ul>
+                            </div>
+                        </div>                    </div>
+                    <div class="jumbotron jumbotron-fluid mb-0" style="background: url('https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940') no-repeat;background-size: 100%;background-position: center;">
+                        <div class="container mb-5 mt-5" style="background: rgba(0,0,0,0.5)">
+                            <div class="row">
+                                <div class="col-md-12 p-4 text-white">
+                                    <h1 class="display-4 text-center">Intro To English</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row mt-3">
+                            <div class="col-lg-8">
+                                <div class="mb-3 p-3 border rounded bg-white">
+                                    <div class="h5">Course Information</div>
+                                    <hr>
+                                    <div class="mb-3"><strong>Instructor Name</strong></div>
+                                    <div>{{ request.user.profile.first_name }} {{ request.user.profile.last_name }}</div>
+                                    <hr>
+                                    <div class="mb-3"><strong>Course Description</strong></div>
+                                    <div>
+                                        Greetings Students! This course will cover introductory topics in English.
+                                    </div>
+                                    <!-- <hr>
+                                    <div class="mb-3"><strong>Course Length</strong></div>
+                                    <div>6 Weeks</div> -->
+                                </div>
+                                <div class="mb-3 p-3 border rounded bg-white">
+                                    <div class="h5">Syllabus</div>
+                                    <hr>
+                                    <div>
+                                        <iframe class="border-0" src="https://ce.uci.edu/pdfs/instructor/syllabus_sample.pdf" width="100%" height="500px"></iframe>
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="m-3">
+                                            <div class="h5">Learning outcomes</div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        Reading Comprehension
+                                                        <ul><li>You will gain skills in reading Comprehension</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        Grammar
+                                                        <ul><li>You will improve gramar</li></ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Required Materials</div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        Textbook ABC
+                                                        <ul><li>Author: John Smith</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        Textbook DEF
+                                                        <ul><li>Author: John Smith</li></ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Goals</div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        Goal 1
+                                                        <ul><li>Info</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        Goal 2
+                                                        <ul><li>Info</li></ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Grading Scale</div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        A
+                                                        <ul><li>90-100</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        B
+                                                        <ul><li>80-89</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        C
+                                                        <ul><li>70-79</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        D
+                                                        <ul><li>60-69</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        F
+                                                        <ul><li>59 and lower</li></ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Grading Weight</div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        Test
+                                                        <ul><li>30%</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        Quiz
+                                                        <ul><li>20%</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        Assignments
+                                                        <ul><li>50%</li></ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Course Prerequisites</div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        None
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Policies and Procedures</div>
+                                            <div>
+                                                <ul>
+                                                    <li>
+                                                        Late Policy
+                                                        <ul><li>Info</li></ul>
+                                                    </li>
+                                                    <li>
+                                                        Etc..
+                                                        <ul><li>Info</li></ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 p-3 border rounded bg-white">
+                                    <div class="h5">Lessons</div>
+                                    <hr>
+                                    <div style="padding: .75rem;font-size: 1rem;">
+                                        <div class="accordion" id="chapterExpand1">
+                                            <div class="card">
+                                                <div class="card-header" id="headingOne">
+                                                    <h5 class="mb-0">
+                                                        <div class="" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                                                            <div class="navbar navbar-light bg-light">
+                                                                <div class="navbar-brand">Chapter 1 - Introduction</div>
+                                                            </div>
+                                                        </div>
+                                                    </h5>
+                                                </div>
+                                                <div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#chapterExpand">
+                                                    <div class="card-body">
+                                                        <div class="navbar navbar-light bg-light">
+                                                            <button type="button" class="btn bg-none" data-toggle="modal" data-target="#lesson11" style="background:none;">Lesson 1 - Welcome to the Course</button>
+                                                            <div class="form-inline">
+                                                                <span class="pr-2"><p id="getTime11">Due Tomorrow</p>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn bg-none rounded-0" data-toggle="modal" data-target="#notes11" style="background:none;"><i class="fas fa-file"></i>&nbsp;Additional Notes for Lesson 1 - Welcome to the Course</button>
+                                                        <br>
+                                                    </div>
+                                                    
+                                                    <div class="card-body">
+                                                        <div class="navbar navbar-light bg-light">
+                                                            <button type="button" class="btn bg-none" data-toggle="modal" data-target="#lesson21" style="background:none;">Lesson 2 - 2</button>
+                                                            <div class="form-inline">
+                                                                <span class="pr-2"><p id="getTime21">Due in 3 Days</p>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn bg-none rounded-0" data-toggle="modal" data-target="#notes21" style="background:none;"><i class="fas fa-file"></i>&nbsp;Additional Notes for Lesson 2 - 2</button><br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 p-3 border rounded bg-white">
+                                    <div class="h5">Assignments</div>
+                                    <hr>
+                                    <div class="mb-3 border rounded quick-links alert-danger">
+                                        <div class="row p-5">
+                                            <div class="col-lg-4">
+                                                <div class="h4">
+                                                    English Assignment 1
+                                                </div>
+                                                <div class="mb-3">
+                                                    <small>Due 5/4/2020</small>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <button class="btn btn-lg btn-info">Submit</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 border rounded quick-links" style="background:white;">
+                                        <div class="row p-5">
+                                            <div class="col-lg-4">
+                                                <div class="h4">
+                                                    English Assignment 2
+                                                </div>
+                                                <div class="mb-3">
+                                                    <small>Due 5/5/2020</small>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <button class="btn btn-lg btn-info">Submit</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="p-3 border rounded bg-white quick-links">
+                                    <div class="h5">Action Items</div>
+                                    <div class="p-2 border-top text-danger">
+                                        3 Late Assignments
+                                    </div>
+                                    <div class="p-2 border-top">
+                                        <a href="{% url 'viewlesson' %}" class="btn btn-info">Continue Lesson</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

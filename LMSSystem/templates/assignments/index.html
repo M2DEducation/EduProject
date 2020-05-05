@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+
+        <title>Layout</title>
+        <!-- global styles -->
+        {% include 'base-templates/styles.html' %}
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                {% include 'base-templates/dashboard-sidebar.html' %}
+                <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
+                    <nav class="navbar navbar-light border-bottom">
+                        <span class="navbar-brand">
+                            Assignments
+                        </span>
+                        <span class="form-inline">
+                            <a class="text-dark mr-3" href="{% url 'profile' %}"><i class="far fa-user-circle"></i></a>
+                            <a class="text-dark mr-3" href="{% url 'notifications' %}"><i class="far fa-bell"></i></a>
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+                            <form action="{% url 'logoutuser' %}" method="POST" class="ml-3">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" type="submit">Logout</button>
+                            </form>
+                        </span>
+                    </nav>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12 p-3">
+                                <ul class="list-group list-group-horizontal">
+                                  <li class="text-center list-group-item border-top-0 border-left-0 border-right-0 border-info" style="border-bottom-width: 5px;">Intro To English</li>
+                                  <li class="text-center list-group-item border-0">Intro To Spanish</li>
+                                  <li class="text-center list-group-item border-0">Intro To Art</li>
+                                  <li class="text-center list-group-item border-0">Intro To Psychology</li>
+                                  <li class="text-center list-group-item border-0">Intro To History</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="mb-3 border rounded quick-links" style="background:white;">
+                                    <div class="row p-5">
+                                        <div class="col-lg-4">
+                                            <div class="h4">
+                                                English Assignment
+                                            </div>
+                                            <div class="mb-3">
+                                                <small>Due 5/5/2020</small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <button class="btn btn-lg btn-info">Submit</button>
+                                                <button class="btn btn-lg btn-warning">Modify</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 border rounded quick-links" style="background:white;">
+                                    <div class="p-3 display-5">
+                                        New Assignment
+                                    </div>
+                                    <div class="row pb-5 pl-5 pr-5">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for=""><strong>Assignment Name</strong></label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="mb-3 form-group">
+                                                <label for=""><strong>Due Date</strong></label>
+                                                <input type="date" class="form-control">
+                                            </div>
+                                            <div class="mb-3 form-group">
+                                                <label for=""><strong>Assignment Type</strong></label>
+                                                <select class="custom-select">
+                                                    <option >Choose Type...</option>
+                                                    <option value="1">File Upload</option>
+                                                    <option value="2">Discussion</option>
+                                                    <option value="3" selected>Quiz</option>
+                                                    <option value="3">Test</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-2">
+                                                <button class="btn btn-lg btn-info w-100" readonly>Save</button>
+                                            </div>
+                                            <div class="mb-2">
+                                                <button class="btn btn-lg btn-warning w-100" readonly>Publish</button>
+                                            </div>
+                                            <div class="mb-2">
+                                                <button class="btn btn-lg btn-danger w-100" readonly>Delete</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1"><strong>Assignment Description</strong></label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleFormControlFile1"><strong>Assignment Materials</strong></label>
+                                                <input type="file" class="form-control-file" id="exampleFormControlFile1" multiple="multiple">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-5 pl-5 pr-5">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label for=""><strong>Quiz/Test Questions</strong></label>
+                                                <div class="mb-2">
+                                                    <button class="btn btn-info btn-lg">Download Quiz Template for bulk upload</button>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for=""><strong>Bulk Upload Questions</strong></label>
+                                                    <input type="file" class="form-control-file" id="" multiple="multiple">
+                                                </div>
+                                                <div class="questions m-2">
+                                                    <div class="form-group">
+                                                        <label for=""><strong>Question</strong></label>
+                                                        <select class="custom-select mb-1">
+                                                            <option selected>Question Type</option>
+                                                            <option value="1">Multiple Choice</option>
+                                                            <option value="1">Multiple Choice and Selection</option>
+                                                            <option value="2">Fill in the blank</option>
+                                                            <option value="3">Freeform</option>
+                                                        </select>
+                                                        <select class="custom-select mb-1">
+                                                            <option selected>Number of Possible Answers</option>
+                                                            <option value="1">1</option>
+                                                            <option value="1">2</option>
+                                                            <option value="2">3</option>
+                                                            <option value="3">4</option>
+                                                            <option value="3">5</option>
+                                                            <option value="3">6</option>
+                                                        </select>
+                                                        <input type="text" class="form-control mb-1" placeholder="Enter Question">
+                                                        <input type="number" class="form-control mb-1" placeholder="Point Value">
+                                                        <div class="ml-3">
+                                                            <div class="form-group">
+                                                                <label for=""><strong>Answer 1</strong></label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for=""><strong>Answer 2</strong></label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for=""><strong>Answer 3</strong></label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for=""><strong>Answer 4</strong></label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for=""><strong>Answer 5</strong></label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for=""><strong>Answer 6</strong></label>
+                                                                <input type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <button class="btn btn-dark"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="p-3 border rounded quick-links" style="background:white;">
+                                    <div class="h5">Quick Actions</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Action 1</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Action 2</div>
+                                    <div class="p-2 border-top"><i class="fas fa-cogs"></i> Action 3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
