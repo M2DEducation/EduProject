@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+    {% include 'base-templates/headtag.html' %}
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                {% include 'base-templates/dashboard-sidebar.html' %}
+                <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
+                    {% include 'base-templates/top-navbar.html' %}
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="alert alert-warning border m-3" role="alert">
+                                    <div class="d-flex">
+                                        <span class="mr-auto">System going offline in 3 hours for maintenance. Downtime is approximately 2 hours. We apologize for the inconvenience.</span>
+                                        <span><i class="fas fa-times text-dark"></i></span>
+                                    </div>
+                                </div>
+                                {% if request.user.profile.role == "Supervisor" or request.user.profile.role == "Teacher" or request.user.profile.role == "Student" %}
+                                <div class="alert alert-warning border m-3" role="alert">
+                                    <div class="d-flex">
+                                        <span class="mr-3">Field Trip Money Due</span>
+                                        <span class="mr-auto"><a href="">Go to Payments</a></span>
+                                        <span><i class="fas fa-times text-dark"></i></span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if request.user.profile.role == "Supervisor" or request.user.profile.role == "Teacher" or request.user.profile.role == "Student" %}
+                        <!-- <div class="row">
+                            <div class="col-lg-12">
+                                <div class="m-3">
+                                    <div class="card-deck text-white text-right">
+                                        <div class="card" style="background:#2F9EBC;">
+                                            <div class="card-body">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><i class="fas fa-chalkboard-teacher fa-w-16 fa-5x float-left"></i></a>
+                                                <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><strong>3</strong></a></p>
+                                                <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}">Courses</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="card" style="background:#8D4293;">
+                                            <div class="card-body">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><i class="fas fa-user-graduate fa-w-16 fa-5x float-left"></i></a>
+                                                <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><strong>84</strong></a></p>
+                                                <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'students' %}">Students</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="card" style="background:#EB6855;">
+                                            <div class="card-body">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}"><i class="fas fa-tasks fa-w-16 fa-5x float-left"></i></a>
+                                                <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}"><strong>94</strong></a></p>
+                                                <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}">Assignments</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="card" style="background:#399290;">
+                                            <div class="card-body">
+                                                <a class="text-white" style="text-decoration:none;" href=""><i class="fas fa-percent fa-w-16 fa-5x float-left"></i></a>
+                                                <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href=""><strong>95%</strong></a></p>
+                                                <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="">Class Average</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <!-- Critical Announcements -->
+                                <div class="m-3 border rounded announcements-header alert-danger">
+                                    <div class="d-flex bd-highlight border-bottom bg-danger text-white">
+                                        <div class="bd-highlight h5 m-0 p-3">
+                                            Critical Announcements
+                                        </div>
+                                        <div class="ml-auto bd-highlight pt-3 pb-3">
+                                            <span class="border-left border-primary m-2" style="border-left-width: 3px !important;"></span> Principle
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3">
+                                            <span class="border-left border-warning m-2" style="border-left-width: 3px !important;"></span> Teacher
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3 pr-3">
+                                            <span class="border-left border-info m-2" style="border-left-width: 3px !important;"></span> Student
+                                        </div>
+                                    </div>
+                                    <div class="critical-alert-content">
+                                        <!-- begin class loop -->
+                                        <div class="d-flex bd-highlight border-bottom">
+                                            <div class="p-2 bd-highlight border-left border-info m-2" style="border-left-width: 3px !important;">
+                                                <div class="text-center">
+                                                    <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/e8/e879127befd18f6dcbd2f336234b62b393348c74_full.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                </div>
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                                <div><strong>John Wick</strong></div>
+                                                <div>
+                                                    Based on this student's current grades calculated against the rest of the assignments for this course it appears if no action is taken he will fail this course. Please reach out and seek a resolution.
+                                                </div>
+                                            </div>
+                                            <div class="ml-auto p-2 bd-highlight">
+                                                <div class="text-center text-muted">
+                                                    <small>9:45PM</small>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="far fa-envelope"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end class loop -->
+                                    </div>
+                                </div>
+                                <!-- Classes -->
+                                <div class="mt-3 ml-3 mr-3 border-top border-left border-right rounded announcements-header" style="background:white;">
+                                    <div class="d-flex bd-highlight border-bottom">
+                                        <div class="bd-highlight h5 m-0 p-3">
+                                            Courses
+                                        </div>
+                                        <div class="ml-auto bd-highlight pt-3 pb-3">
+                                            <!-- Extra info -->
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3">
+                                            <!-- Extra info -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ml-3 mr-3 border-left border-right border-bottom quick-links" style="background:white;">
+                                    <div class="row">
+                                        {% block listclasses %}
+                                        {% if not listclasses %}
+                                        <div class="col-lg-12 m-3">
+                                            <h5>No Courses Yet</h5>
+                                            <a href="{% url 'coursemanagement' %}" class="btn btn-info">Create a Course</a>
+                                        </div>
+                                        {% else %}
+                                        {% for row in listclasses %}
+                                        <div class="col-lg-4">
+                                            {% if not row.class_photo %}
+                                            <img src="https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" class="w-100">
+                                            {% else %}
+                                            <img src="{{ row.class_photo.url }}" alt="" class="w-100">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="h4 mt-2">
+                                                {{ row.class_name }}
+                                            </div>
+                                            <div class="">
+                                                <div>3 Classes</div>
+                                                <div>50 Total Students</div>
+                                                <div>34 Total Assignments</div>
+                                                <div>5 Total Announcements</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <p class="">
+                                                <a class="text-dark display-4" style="text-decoration:none;" href=""><strong>95%</strong></a>
+                                                Course Avg.
+                                            </p>
+                                            <a href="{% url 'coursemanagement' %}?c={{ row.class_id }}" class="btn btn-info">Manage Course</a>
+                                        </div>
+                                        {% endfor %}
+                                        {% endif %}
+                                        {% endblock %}
+                                    </div>
+                                </div>
+                                <!-- Announcements -->
+                                <div class="m-3 border rounded announcements-header" style="background:white;">
+                                    <div class="d-flex bd-highlight border-bottom">
+                                        <div class="bd-highlight h5 m-0 p-3">
+                                            General Announcements
+                                        </div>
+                                        <div class="ml-auto bd-highlight pt-3 pb-3">
+                                            <span class="border-left border-primary m-2" style="border-left-width: 3px !important;"></span>Principle
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3">
+                                            <span class="border-left border-warning m-2" style="border-left-width: 3px !important;"></span>Teacher
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3 pr-3">
+                                            <span class="border-left border-dark m-2" style="border-left-width: 3px !important;"></span>System
+                                        </div>
+                                    </div>
+                                    <div class="announcements-content">
+                                        <!-- begin announcement loop -->
+                                        <div class="d-flex bd-highlight border-bottom">
+                                            <div class="p-2 bd-highlight border-left border-warning m-2" style="border-left-width: 3px !important;">
+                                                <div class="text-center">
+                                                    <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                </div>
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                                <div>
+                                                    <strong>Art 101: Assignment Posted</strong>
+                                                </div>
+                                                <div>
+                                                    Art Assignment has been posted. Click this notification to access the assignment.
+                                                </div>
+                                            </div>
+                                            <div class="ml-auto p-2 bd-highlight">
+                                                <div class="text-center text-muted">
+                                                    <small>9:45PM</small>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="fas fa-link"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end announcement loop -->
+                                        <!-- begin announcement loop -->
+                                        <div class="d-flex bd-highlight border-bottom">
+                                            <div class="p-2 bd-highlight border-left border-dark m-2" style="border-left-width: 3px !important;">
+                                                <div class="text-center">
+                                                    <i class="fas fa-cog fa-w-16 fa-2x"></i>
+                                                </div>
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                                <div>
+                                                    <strong>Upcoming Holiday: Memorial Day</strong>
+                                                </div>
+                                                <div>
+                                                    Please note school will be closed on this day.
+                                                </div>
+                                            </div>
+                                            <div class="ml-auto p-2 bd-highlight">
+                                                <div class="text-center text-muted">
+                                                    <small>9:45PM</small>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="fas fa-link"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end announcement loop -->
+                                        <!-- begin announcement loop -->
+                                        <div class="d-flex bd-highlight">
+                                            <div class="p-2 bd-highlight border-left border-primary m-2" style="border-left-width: 3px !important;">
+                                                <div class="text-center">
+                                                    <i class="fas fa-user-tie fa-w-16 fa-2x"></i>
+                                                </div>
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                                <div>
+                                                    <strong>School Announcement: Class photos coming up</strong>
+                                                </div>
+                                                <div>
+                                                    Please remember that class photos will happen on 5/1/2020
+                                                </div>
+                                            </div>
+                                            <div class="ml-auto p-2 bd-highlight">
+                                                <div class="text-center text-muted">
+                                                    <small>9:45PM</small>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="far fa-calendar-alt"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end announcement loop -->
+                                    </div>
+                                    <button class="btn btn-info text-center w-100">Read More</button>
+                                </div>
+                                <!-- Direct Messages -->
+                                <div class="m-3 border rounded announcements-header" style="background:white;">
+                                    <div class="d-flex bd-highlight border-bottom">
+                                        <div class="bd-highlight h5 m-0 p-3">
+                                            Direct Messages
+                                        </div>
+                                        <div class="ml-auto bd-highlight pt-3 pb-3">
+                                            <span class="border-left border-warning m-2" style="border-left-width: 3px !important;"></span>Teacher
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3 pr-3">
+                                            <span class="border-left border-info m-2" style="border-left-width: 3px !important;"></span>Student
+                                        </div>                                    </div>
+                                    <div class="announcements-content">
+                                        <!-- begin message loop -->
+                                        <div class="d-flex bd-highlight border-bottom">
+                                            <div class="p-2 bd-highlight border-left border-warning m-2" style="border-left-width: 3px !important;">
+                                                <div class="text-center">
+                                                    <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                </div>
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                                <div><strong>Rambo Says:</strong></div>
+                                                <div>
+                                                    Hey did you forget to turn in your Math assignment? Let me know if you are having any issues.
+                                                </div>
+                                            </div>
+                                            <div class="ml-auto p-2 bd-highlight">
+                                                <div class="text-center text-muted">
+                                                    <small>9:45PM</small>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="far fa-envelope"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end message loop -->
+                                        <!-- begin message loop -->
+                                        <div class="d-flex bd-highlight border-bottom">
+                                            <div class="p-2 bd-highlight border-left border-info m-2" style="border-left-width: 3px !important;">
+                                                <div class="text-center">
+                                                    <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/e8/e879127befd18f6dcbd2f336234b62b393348c74_full.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                </div>
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                                <div><strong>John Says:</strong></div>
+                                                <div>
+                                                    Yo do you wanna study together for the English Test?
+                                                </div>
+                                            </div>
+                                            <div class="ml-auto p-2 bd-highlight">
+                                                <div class="text-center text-muted">
+                                                    <small>9:45PM</small>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="far fa-envelope"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end message loop -->
+                                    </div>
+                                    <button class="btn btn-info text-center w-100">Read More</button>
+                                </div>
+
+                                <div class="m-3 border rounded announcements-header" style="background:white;">
+                                    <div class="d-flex bd-highlight border-bottom">
+                                        <div class="bd-highlight h5 m-0 p-3 mr-auto">
+                                            My Students
+                                        </div>
+                                        <div class="m-0 p-3"><i class="fas fa-search"></i></div>
+                                        <div class="m-0 p-3"><i class="fas fa-download"></i></div>
+                                        <div class="m-0 p-3"><i class="fas fa-filter"></i></div>
+                                    </div>
+                                    <table class="table bg-white table-responsive-lg">
+                                        <tbody>
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                </td>
+                                                <td class="align-middle">John James Rambo</td>
+                                                <td class="align-middle">(123) 456-7890</td>
+                                                <td class="align-middle">rambo@rambo.com</td>
+                                                <td class="align-middle">Class 1</td>
+                                                <td class="align-middle"><span class="badge badge-pill badge-success">95%</span></td>
+                                                <td class="text-center align-middle">
+                                                    <i class="far fa-comments m-2"></i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                </td>
+                                                <td class="align-middle">John Wick</td>
+                                                <td class="align-middle">(321) 654-0987</td>
+                                                <td class="align-middle">johnwick@johnwick.com</td>
+                                                <td class="align-middle">Class 2</td>
+                                                <td class="align-middle"><span class="badge badge-pill badge-success">87%</span></td>
+                                                <td class="text-center align-middle">
+                                                    <i class="far fa-comments m-2"></i>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="align-middle">
+                                                    <img src="https://i.pinimg.com/474x/61/ab/df/61abdf4ea32577c24ea808c10f82613f.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                </td>
+                                                <td class="align-middle">Tony Stark</td>
+                                                <td class="align-middle">(231) 564-8907</td>
+                                                <td class="align-middle">ironman@ironman.com</td>
+                                                <td class="align-middle">Class 3</td>
+                                                <td class="align-middle"><span class="badge badge-pill badge-success">100%</span></td>
+                                                <td class="text-center align-middle">
+                                                    <i class="far fa-comments m-2"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-info text-center w-100">View More</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="m-3 p-3 border rounded quick-links" style="background:white;">
+                                    <div class="h5">Quick Actions</div>
+                                    <div class="p-2 border-top">
+                                        <a href="{% url 'coursemanagement' %}" class="text-dark" style="text-decoration:none;">
+                                            <i class="fas fa-cogs"></i> Create Class
+                                        </a>
+                                    </div>
+                                    <div class="p-2 border-top">
+                                        <a href="{% url 'assignments' %}" class="text-dark" style="text-decoration:none;">
+                                        <i class="fas fa-cogs"></i> Create Assignment
+                                    </a>
+                                    </div>
+                                    <div class="p-2 border-top">
+                                        <a href="{% url 'messages' %}" class="text-dark" style="text-decoration:none;">
+                                        <i class="fas fa-globe-americas"></i> Send Global Announcement
+                                    </a>
+                                    </div>
+                                    <div class="p-2 border-top">
+                                        <a href="{% url 'dashboard' %}" class="text-dark" style="text-decoration:none;">
+                                        <i class="fas fa-chart-line"></i> Reports
+                                    </a>
+                                    </div>
+                                </div>
+                                <!-- <div class="m-3 p-3 border rounded quick-links" style="background:white;">
+                                    <div class="h5">
+                                        Overall Stats
+                                    </div>
+                                    <div class="p-2 border-top text-dark">
+                                        <div class="h5">Overall Success</div>
+                                        (USE CIRCLE GRAPH)
+                                        <div class="d-flex">
+                                            <div class="mr-auto">
+                                                <i class="fas fa-user-check text-success fa-w-20 fa-5x"></i><br>
+                                                <strong>30 Passing</strong>
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-user-times text-danger fa-w-20 fa-5x"></i><br>
+                                                <strong>15 Failing</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 border-top text-dark">
+                                        <div class="h5">Courses</div>
+                                        <div class="d-flex">
+                                            <a class="text-dark" style="text-decoration:none;" href="{% url 'courses' %}"><i class="fas fa-chalkboard-teacher fa-w-16 fa-5x"></i></a>
+                                            <div class="display-4 ml-3">
+                                                <strong>5</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="m-3" style="">
+                                    <div class="card mb-1" style="background:#2F9EBC;">
+                                        <div class="card-body text-white">
+                                            <div class="h4">Courses</div>
+                                            <div class="d-flex">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><i class="fas fa-chalkboard-teacher fa-w-16 fa-5x"></i></a>
+                                                <div class="display-4 ml-3">
+                                                    <strong>5</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-1" style="background:#8D4293;">
+                                        <div class="card-body text-white">
+                                            <div class="h4">Students</div>
+                                            <div class="d-flex">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><i class="fas fa-user-graduate fa-w-16 fa-5x"></i></a>
+                                                <div class="display-4 ml-3">
+                                                    <strong>84</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-1" style="background:#EB6855;">
+                                        <div class="card-body text-white">
+                                            <div class="h4">Assignments</div>
+                                            <div class="d-flex">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><i class="fas fa-tasks fa-w-16 fa-5x"></i></a>
+                                                <div class="display-4 ml-3">
+                                                    <strong>84</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="card" style="background:#399290;">
+                                        <div class="card-body text-white">
+                                            <div class="h4">Intro To English</div>
+                                            <div class="d-flex">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><i class="fas fa-percent fa-w-16 fa-5x"></i></a>
+                                                <div class="display-4 ml-3">
+                                                    <strong>95</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body text-white">
+                                            <div class="h4">Intro To Spanish</div>
+                                            <div class="d-flex">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><i class="fas fa-percent fa-w-16 fa-5x"></i></a>
+                                                <div class="display-4 ml-3">
+                                                    <strong>87</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="m-3 p-3 border rounded upcoming-assignments bg-info text-white">
+                                    <div class="h5"><i class="far fa-calendar-check"></i> Assignments This Week</div>
+                                    <div class="h3 m-3 d-flex justify-content-between">
+                                        <span><i class="fas fa-chevron-left"></i></span>
+                                        <span>4/19 - 4/25</span>
+                                        <span><i class="fas fa-chevron-right"></i></span>
+                                    </div>
+                                    <div class="bg-light text-dark rounded">
+                                        <div class="p-2 border-top">
+                                            <div class="d-flex bd-highlight">
+                                                <div class="mr-auto p-2 bd-highlight">
+                                                    <span class="badge badge-pill badge-dark">&nbsp;</span> Math Assignment
+                                                    <div class="text-success ml-4">
+                                                        8 Turned in
+                                                    </div>
+                                                    <div class="text-danger ml-4">
+                                                        25 Remaining
+                                                    </div>
+                                                </div>
+                                                <div class="p-2 bd-highlight">Yesterday</div>
+                                                <div class="p-2 bd-highlight"><i class="fas fa-link"></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="p-2 border-top">
+                                            <div class="d-flex bd-highlight">
+                                                <div class="mr-auto p-2 bd-highlight">
+                                                    <span class="badge badge-pill badge-dark">&nbsp;</span> Physics Research Paper
+                                                    <div class="text-success ml-4">
+                                                        33 Turned in
+                                                    </div>
+                                                </div>
+                                              <div class="p-2 bd-highlight">Today</div>
+                                              <div class="p-2 bd-highlight"><i class="fas fa-link"></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="p-2 border-top">
+                                            <div class="d-flex bd-highlight">
+                                                <div class="mr-auto p-2 bd-highlight">
+                                                    <span class="badge badge-pill badge-dark">&nbsp;</span> Programming Assignment
+                                                    <div class="text-success ml-4">
+                                                        31 Turned in
+                                                    </div>
+                                                    <div class="text-danger ml-4">
+                                                        2 Remaining
+                                                    </div>
+                                                </div>
+                                              <div class="p-2 bd-highlight">Today</div>
+                                              <div class="p-2 bd-highlight"><i class="fas fa-link"></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="p-2 border-top">
+                                            <div class="d-flex bd-highlight">
+                                                <div class="mr-auto p-2 bd-highlight">
+                                                    <span class="badge badge-pill badge-dark">&nbsp;</span> English Essay
+                                                    <div class="text-success ml-4">
+                                                        33 Turned in
+                                                    </div>
+                                                </div>
+                                              <div class="p-2 bd-highlight">Tomorrow</div>
+                                              <div class="p-2 bd-highlight"><i class="fas fa-link"></i></div>
+                                            </div>
+                                        </div>
+                                        <div class="p-2 border-top">
+                                            <div class="d-flex bd-highlight">
+                                                <div class="mr-auto p-2 bd-highlight">
+                                                    <span class="badge badge-pill badge-dark">&nbsp;</span> Test 1
+                                                    <div class="text-success ml-4">
+                                                        8 Turned in
+                                                    </div>
+                                                    <div class="text-danger ml-4">
+                                                        25 Remaining
+                                                    </div>
+                                                </div>
+                                                <div class="p-2 bd-highlight">Friday</div>
+                                                <div class="p-2 bd-highlight"><i class="fas fa-link"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

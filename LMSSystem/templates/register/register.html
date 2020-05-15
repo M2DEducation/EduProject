@@ -64,6 +64,10 @@
       <div class="row">
         <div class="col-lg-12">
           <h2>Sign up Form</h2>
+          {% if regError %}
+          <div class="p-3 alert alert-danger">{{ regError }}</div>
+          {% else %}
+          {% endif %}
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
@@ -85,8 +89,17 @@
     </div>
 
     {% endblock %}
-    <footer class="p-5 bg-light">
-      &copy;{% now "Y" %}
-    </footer>
+    {% include 'base-templates/footer.html' %}
+    <script>
+      $(".roleInput").on('change', function(){
+        if($(".roleInput").val() == "Student") {
+          $(".regCode").show();
+          $(".regCode").prev('label').show();
+        } else {
+          $(".regCode").hide();
+          $(".regCode").prev('label').hide();
+        }
+      });
+    </script>
   </body>
 </html>

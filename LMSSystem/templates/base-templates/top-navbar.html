@@ -1,0 +1,15 @@
+<nav class="navbar navbar-light border-bottom" style="background: #ffffff;">
+    <span class="navbar-brand">
+        {{ pagename }}
+    </span>
+    <span class="form-inline">
+        <a class="text-dark mr-3" href="{% url 'profile' %}"><i class="far fa-user-circle"></i></a>
+        <a class="text-dark mr-3" href="{% url 'notifications' %}"><i class="far fa-bell"></i></a>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+        <form action="{% url 'logoutuser' %}" method="POST" class="ml-3">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Logout</button>
+        </form>
+    </span>
+</nav>

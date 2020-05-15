@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+    {% include 'base-templates/headtag.html' %}
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                {% include 'base-templates/dashboard-sidebar.html' %}
+                <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
+                    {% include 'base-templates/top-navbar.html' %}
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12 p-3">
+                                <ul class="list-group list-group-horizontal">
+                                  <li class="text-center list-group-item border-0">Intro To Spanish</li>
+                                  <li class="text-center list-group-item border-top-0 border-left-0 border-right-0 border-info" style="border-bottom-width: 5px;">NEW COURSE</li>
+                                  <li class="text-center list-group-item border-0"><i class="fa fa-plus"></i></li>
+                                </ul>
+                            </div>
+                        </div>                    </div>
+                    <div class="jumbotron jumbotron-fluid mb-0" style="background: url('https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940') no-repeat;background-size: 100%;background-position: center;">
+                        <div class="container mb-5 mt-5" style="background: rgba(0,0,0,0.5)">
+                            <div class="row">
+                                <div class="col-md-12 p-4 text-white">
+                                    <h1 class="display-4 text-center">NEW COURSE</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row mt-3">
+                            <div class="col-lg-8">
+                                <div class="mb-3 p-3 border rounded bg-white">
+                                    <div class="h5">Course Information</div>
+                                    <hr>
+                                    <div class="mb-3"><strong>Instructor Name</strong></div>
+                                    <div>{{ request.user.profile.first_name }} {{ request.user.profile.last_name }}</div>
+                                    <hr>
+                                    <div class="mb-3"><strong>Course Name</strong></div>
+                                    <div><input type="text" class="form-control" placeholder="Enter Course Name..."></div>
+                                    <hr>
+                                    <form class="mb-3">
+                                        <div class="form-group">
+                                          <label for="exampleFormControlFile1"><strong>Course Image</strong></label>
+                                          <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                        </div>
+                                    </form>
+                                    <hr>
+                                    <div class="mb-3"><strong>Course Description</strong></div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">Greetings Students! This course will cover introductory topics in English.</textarea>
+                                    </div>
+                                    <!-- <hr>
+                                    <div class="mb-3"><strong>Course Length</strong></div>
+                                    <div>6 Weeks</div> -->
+                                </div>
+                                <div class="mb-3 p-3 border rounded bg-white">
+                                    <div class="h5">Syllabus</div>
+                                    <hr>
+                                    <form class="mb-3">
+                                        <div class="form-group">
+                                          <label for="exampleFormControlFile1"><strong>Upload Syllabus</strong></label>
+                                          <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                        </div>
+                                    </form>
+                                    <div>
+                                        <iframe class="border-0" src="https://ce.uci.edu/pdfs/instructor/syllabus_sample.pdf" width="100%" height="500px"></iframe>
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="m-3">
+                                            <div class="h5">Learning outcomes</div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Outcome Name">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2">
+Enter Outcome Description
+                                                </textarea>
+                                                <button class="btn btn-info"><i class="fa fa-plus"></i> Add policy</button>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Required Materials</div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Material Name">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2">
+Enter Material Description
+                                                </textarea>
+                                                <button class="btn btn-info"><i class="fa fa-plus"></i> Add policy</button>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Goals</div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Goal Name">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2">
+Enter Goal Description
+                                                </textarea>
+                                                <button class="btn btn-info"><i class="fa fa-plus"></i> Add policy</button>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Grading Scale</div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Grade Letter">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2">
+Enter Grading Scale
+                                                </textarea>
+                                                <button class="btn btn-info"><i class="fa fa-plus"></i> Add policy</button>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Grading Weight</div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Assignment Type">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2">
+Enter percentage
+                                                </textarea>
+                                                <button class="btn btn-info"><i class="fa fa-plus"></i> Add policy</button>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Course Prerequisites</div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Prerequisite Name">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2">
+Enter Prerequisite
+                                                </textarea>
+                                                <button class="btn btn-info"><i class="fa fa-plus"></i> Add policy</button>
+                                            </div>
+                                        </div>
+                                        <div class="m-3">
+                                            <div class="h5">Policies and Procedures</div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Policy Name">
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2">
+Enter Policy Description
+                                                </textarea>
+                                                <button class="btn btn-info"><i class="fa fa-plus"></i> Add policy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 p-3 border rounded bg-white">
+                                    <div class="h5">Lessons</div>
+                                    <hr>
+                                    <div style="padding: .75rem;font-size: 1rem;">
+                                        <div class="accordion" id="chapterExpand1">
+                                            <div class="card">
+                                                <div class="card-header" id="headingOne">
+                                                    <h5 class="mb-0">
+                                                        <div class="" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                                                            <div class="navbar navbar-light bg-light">
+                                                                <div class="navbar-brand">Chapter 1 - Introduction</div>
+                                                            </div>
+                                                        </div>
+                                                    </h5>
+                                                </div>
+                                                <div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#chapterExpand">
+                                                    <div class="card-body">
+                                                        <div class="navbar navbar-light bg-light">
+                                                            <button type="button" class="btn bg-none" data-toggle="modal" data-target="#lesson11" style="background:none;">Lesson 1 - Welcome to the Course</button>
+                                                            <div class="form-inline">
+                                                                <span class="pr-2"><p id="getTime11">Due Tomorrow</p>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn bg-none rounded-0" data-toggle="modal" data-target="#notes11" style="background:none;"><i class="fas fa-file"></i>&nbsp;Additional Notes for Lesson 1 - Welcome to the Course</button>
+                                                        <br>
+                                                    </div>
+                                                    
+                                                    <div class="card-body">
+                                                        <div class="navbar navbar-light bg-light">
+                                                            <button type="button" class="btn bg-none" data-toggle="modal" data-target="#lesson21" style="background:none;">Lesson 2 - 2</button>
+                                                            <div class="form-inline">
+                                                                <span class="pr-2"><p id="getTime21">Due in 3 Days</p>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn bg-none rounded-0" data-toggle="modal" data-target="#notes21" style="background:none;"><i class="fas fa-file"></i>&nbsp;Additional Notes for Lesson 2 - 2</button><br>
+                                                    </div>
+                                                    <button class="btn btn-info m-3"><i class="fa fa-plus"></i> Add Lesson</button>
+                                                </div>
+                                                <button class="btn btn-info"><i class="fa fa-plus"></i> Add Chapter</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="p-3 border rounded bg-white quick-links">
+                                    <div class="h5">Course Management Actions</div>
+                                    <div class="p-2 border-top">
+                                        <a href="{% url 'viewcourse' %}"><i class="fas fa-cogs"></i> View Course</a>
+                                    </div>
+                                    <div class="p-2 border-top">
+                                        <i class="fas fa-cogs"></i> Save Changes
+                                    </div>
+                                    <div class="p-2 border-top">
+                                        <i class="fas fa-cogs"></i> Publish/Unpublish Course
+                                    </div>
+                                    <div class="p-2 border-top text-danger">
+                                        <i class="fa fa-trash"></i> Delete Course
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

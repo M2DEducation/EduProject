@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import Profile, ClassList
+from .models import Profile, ClassList, Assignments, ClassListGroupCode, ClassListGroup
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -20,6 +20,18 @@ class CustomUserAdmin(UserAdmin):
 
 @admin.register(ClassList)
 class ClassList(admin.ModelAdmin):
+    pass
+
+@admin.register(Assignments)
+class Assignments(admin.ModelAdmin):
+    pass
+
+@admin.register(ClassListGroupCode)
+class ClassListGroupCode(admin.ModelAdmin):
+    pass
+
+@admin.register(ClassListGroup)
+class ClassListGroup(admin.ModelAdmin):
     pass
 
 admin.site.unregister(User)

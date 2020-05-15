@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_text
 from django.contrib.auth.models import User
-from .models import Profile, ClassList
+from .models import Profile, ClassList, ClassListGroupCode, ClassListGroup, Assignments, AssignmentType
 from django.db import IntegrityError
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -12,7 +12,7 @@ from django.utils.http import urlsafe_base64_encode
 from .tokens import account_activation_token
 from django.template.loader import render_to_string
 from django.contrib.auth.models import Group
-from .forms import SignUpForm, LoginForm, CreateNewClass
+from .forms import SignUpForm, LoginForm, CreateNewClass, CreateNewAssignment
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
@@ -49,44 +49,49 @@ def register(request):
         if request.method == "POST" and form.is_valid():
             #Create New User
             if request.POST['password1'] == request.POST['password2']:
-                try:
-                    user = User.objects.create_user(username=request.POST['email'], first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=request.POST['password1'])
-                    if form.cleaned_data.get('Register_As') == "Student":
-                        my_group = Group.objects.get(name='Student')
-                        my_group.user_set.add(user)
-                    if form.cleaned_data.get('Register_As') == "Teacher":
-                        my_group = Group.objects.get(name='Teacher')
-                        my_group.user_set.add(user)
-                    if form.cleaned_data.get('Register_As') == "Supervisor":
-                        my_group = Group.objects.get(name='SchoolAdmin')
-                        my_group.user_set.add(user)
-                    if form.cleaned_data.get('Profile_Image'):
-                        user.profile.Profile_Image = form.cleaned_data.get('Profile_Image')
-                    user.profile.email = form.cleaned_data.get('email')
-                    user.profile.first_name = form.cleaned_data.get('first_name')
-                    user.profile.last_name = form.cleaned_data.get('last_name')
-                    user.profile.role = form.cleaned_data.get('Register_As')
-                    user.save()
-                    current_site = get_current_site(request)
-                    subject = 'Please Activate Your Account'
-                    # load a template like get_template() 
-                    # and calls its render() method immediately.
-                    message = render_to_string('activate-email/activation_request.html', {
-                        'user': user,
-                        'domain': current_site.domain,
-                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                        # method will generate a hash value with user related data
-                        'token': account_activation_token.make_token(user),
-                    })
-                    user.email_user(subject, message)
-                    # login(request, user)
-                    return redirect('activation_sent')
-                    # return redirect('register')
-                except IntegrityError:
-                    return render(request, 'register/register.html', {'form':SignUpForm(), 'error':'That username has already been taken. Please choose a different one.'})
+                    try:
+                        checkCode = ClassListGroupCode.objects.filter(class_group_code=request.POST['Teacher_Registration_Code']).first()
+                        if not checkCode:
+                            return render(request, 'register/register.html', {'form':SignUpForm(), 'regError':'Invalid teacher registration code.'})
+                        else:
+                            user = User.objects.create_user(username=request.POST['email'], first_name=request.POST['first_name'], last_name=request.POST['last_name'], email=request.POST['email'], password=request.POST['password1'])
+                            if form.cleaned_data.get('Register_As') == "Student":
+                                my_group = Group.objects.get(name='Student')
+                                my_group.user_set.add(user)
+                            if form.cleaned_data.get('Register_As') == "Teacher":
+                                my_group = Group.objects.get(name='Teacher')
+                                my_group.user_set.add(user)
+                            if form.cleaned_data.get('Register_As') == "Supervisor":
+                                my_group = Group.objects.get(name='SchoolAdmin')
+                                my_group.user_set.add(user)
+                            if form.cleaned_data.get('Profile_Image'):
+                                user.profile.Profile_Image = form.cleaned_data.get('Profile_Image')
+                            student_class = ClassListGroup.objects.get_or_create(code_id=checkCode,class_id=checkCode.class_id,user=user)
+                            user.profile.email = form.cleaned_data.get('email')
+                            user.profile.first_name = form.cleaned_data.get('first_name')
+                            user.profile.last_name = form.cleaned_data.get('last_name')
+                            user.profile.role = form.cleaned_data.get('Register_As')
+                            user.save()
+                            current_site = get_current_site(request)
+                            subject = 'Please Activate Your Account'
+                            # load a template like get_template() 
+                            # and calls its render() method immediately.
+                            message = render_to_string('activate-email/activation_request.html', {
+                                'user': user,
+                                'domain': current_site.domain,
+                                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                                # method will generate a hash value with user related data
+                                'token': account_activation_token.make_token(user),
+                            })
+                            user.email_user(subject, message)
+                            # login(request, user)
+                            return redirect('activation_sent')
+                            # return redirect('register')
+                    except IntegrityError:
+                        return render(request, 'register/register.html', {'form':SignUpForm(), 'regError':'That username has already been taken. Please choose a different one.'})
             else:
                 #Password didnt match
-                return render(request, 'register/register.html', {'form':SignUpForm(), 'error':'Passwords did not match'})
+                return render(request, 'register/register.html', {'form':SignUpForm(), 'regError':'Passwords did not match'})
 
 def confirmRegistration(request):
     return render(request, 'login-user/login-user.html')
@@ -125,27 +130,34 @@ def home(request):
 def dashboard(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
+        listclasses = ClassList.objects.filter(user=request.user)
+        liststudents = ClassListGroup.objects.filter(class_id=listclasses)
+        # listassignments = Assignments.objects.filter(class_id=course)
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'teacher-view/index.html')
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'listclasses':listclasses})
         # Teacher View
         if role == "Teacher":
-            return render(request, 'teacher-view/index.html')
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'listclasses':listclasses})
         # Student View
         if role == "Student":
-            return render(request, 'student-view/index.html')
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'listclasses':listclasses})
     else:
         return redirect('home')
+        
+def announcements(request):
+    if request.user.is_authenticated:
+        return render(request, 'announcements/index.html', {'pagename':'Announcements'})
 
 def useradmin(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'useradmin/index.html')
+            return render(request, 'useradmin/index.html', {'pagename':'Administration'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'useradmin/index.html')
+            return render(request, 'useradmin/index.html', {'pagename':'Administration'})
         # If Student dont allow useradmin view
         if role == "Student":
             return redirect('dashboard')
@@ -155,146 +167,180 @@ def grades(request):
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'grades/index.html')
+            return render(request, 'grades/index.html', {'pagename':'Grades'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'grades/index.html')
+            return render(request, 'grades/index.html', {'pagename':'Grades'})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'grades/index.html')
+            return render(request, 'grades/index.html', {'pagename':'Grades'})
 
 def courses(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'courses/index.html')
+            return render(request, 'courses/index.html', {'pagename':'Courses'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'courses/index.html')
+            return render(request, 'courses/index.html', {'pagename':'Courses'})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'courses/index.html')
+            return render(request, 'courses/index.html', {'pagename':'Courses'})
 
 def viewcourse(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'courses/course-info/index.html')
+            return render(request, 'courses/course-info/index.html', {'pagename':'Course'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'courses/course-info/index.html')
+            return render(request, 'courses/course-info/index.html', {'pagename':'Course'})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'courses/course-info/index.html')
+            return render(request, 'courses/course-info/index.html', {'pagename':'Course'})
 
 def viewlesson(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'courses/course-info/lesson/index.html')
+            return render(request, 'courses/course-info/lesson/index.html', {'pagename':'Lesson'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'courses/course-info/lesson/index.html')
+            return render(request, 'courses/course-info/lesson/index.html', {'pagename':'Lesson'})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'courses/course-info/lesson/index.html')
+            return render(request, 'courses/course-info/lesson/index.html', {'pagename':'Lesson'})
 
 def students(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'students/index.html')
+            return render(request, 'students/index.html', {'pagename':'Students'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'students/index.html')
+            return render(request, 'students/index.html', {'pagename':'Students'})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'students/index.html')
+            return render(request, 'students/index.html', {'pagename':'Students'})
 
 def profile(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'profile/index.html')
+            return render(request, 'profile/index.html', {'pagename':'Profile'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'profile/index.html')
+            return render(request, 'profile/index.html', {'pagename':'Profile'})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'profile/index.html')
+            return render(request, 'profile/index.html', {'pagename':'Profile'})
 
 def notifications(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'messages/index.html')
+            return render(request, 'messages/index.html', {'pagename':'Notifications'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'messages/index.html')
+            return render(request, 'messages/index.html', {'pagename':'Notifications'})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'messages/index.html')
+            return render(request, 'messages/index.html', {'pagename':'Notifications'})
 
 def attendance(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'attendance/index.html')
+            return render(request, 'attendance/index.html', {'pagename':'Attendance'})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'attendance/index.html')
+            return render(request, 'attendance/index.html', {'pagename':'Attendance'})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'attendance/index.html')
+            return render(request, 'attendance/index.html', {'pagename':'Attendance'})
 
 
 
-def createclass(request):
+def coursemanagement(request):
     if request.user.is_authenticated:
         if request.method == 'GET':
+            course = request.GET.get('c')
             listclasses = ClassList.objects.filter(user=request.user)
-            return render(request, 'createclass/index.html', {'listclasses':listclasses,'newclassform':CreateNewClass()})
+            liststudents = ClassListGroup.objects.filter(class_id=course)
+            listassignments = Assignments.objects.filter(class_id=course)
+            if listclasses and course:
+                showcourse = ClassList.objects.filter(user=request.user,class_id=course)
+                return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"classandcourse",'listclasses':listclasses,'liststudents':liststudents,'listassignments':listassignments,'showcourse':showcourse,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
+            elif listclasses:
+                return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"course",'listclasses':listclasses,'listassignments':listassignments,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
+            else:
+                return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"none",'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})                
         else:
-            try:
+            course = request.GET.get('c')
+            listclasses = ClassList.objects.filter(user=request.user)
+            listassignments = Assignments.objects.filter(class_id=course)
+            getcourse_id = ClassList.objects.get(class_id=course)
+
+            if request.method == "POST" and 'newclass' in request.POST:
                 form = CreateNewClass(request.POST, request.FILES)
-                newclass = form.save(commit=False)
-                newclass.user = request.user
-                newclass.save()
-                return redirect('createclass') 
-            except ValueError:
-                return render(request, 'createclass/index.html', {'listclasses':listclasses,'form':CreateNewClass(), 'error':'Data is bad please retry'})
+                if form.is_valid():
+                    try:
+                        newclass = form.save(commit=False)
+                        newclass.user = request.user
+                        newclass.save()
+                        showcourse = ClassList.objects.filter(user=request.user,class_id=course)
+                        if listclasses and course:
+                            return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"classandcourse",'listclasses':listclasses,'listassignments':listassignments,'showcourse':showcourse,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
+                    except ValueError:
+                        return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','listclasses':listclasses,'listassignments':listassignments,'form':CreateNewClass(), 'error':'Data is bad please retry','newAssignment':CreateNewAssignment()})
+            elif request.method == "POST" and 'createassignment' in request.POST:
+                form = CreateNewAssignment(request.POST, request.FILES)
+                if form.is_valid():
+                    try:
+                        newassignment = form.save(commit=False)
+                        newassignment.class_id = getcourse_id
+                        newassignment.save()
+                        showcourse = ClassList.objects.filter(user=request.user,class_id=course)
+                        if listclasses and course:
+                            return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"classandcourse",'listclasses':listclasses,'listassignments':listassignments,'showcourse':showcourse,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
+                    except ValueError:
+                        return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','listclasses':listclasses,'listassignments':listassignments,'form':CreateNewClass(), 'error':'Data is bad please retry','newAssignment':CreateNewAssignment()})       
+            else:
+                return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','listclasses':listclasses,'listassignments':listassignments,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
+
+
 
 def recordmanagement(request):
     if request.user.is_authenticated:
-        return render(request, 'useradmin/record-management/index.html')
+        return render(request, 'useradmin/record-management/index.html', {'pagename':'Record Management'})
 
 def administrationannouncements(request):
     if request.user.is_authenticated:
-        return render(request, 'useradmin/announcements/index.html')
+        return render(request, 'useradmin/announcements/index.html', {'pagename':'Administrative Announcements'})
 
 def administrationinvoices(request):
     if request.user.is_authenticated:
-        return render(request, 'useradmin/invoices/index.html')
+        return render(request, 'useradmin/invoices/index.html', {'pagename':'Administrative Invoices'})
 
 def calendar(request):
     if request.user.is_authenticated:
-        return render(request, 'calendar/index.html')
+        return render(request, 'calendar/index.html', {'pagename':'Calendar'})
 
 def assignments(request):
     if request.user.is_authenticated:
-        return render(request, 'assignments/index.html')
+        return render(request, 'assignments/index.html', {'pagename':'Assignments'})
 
 def messages(request):
     if request.user.is_authenticated:
-        return render(request, 'messages/index.html')
+        return render(request, 'messages/index.html', {'pagename':'Messages'})
 
 def forum(request):
     if request.user.is_authenticated:
-        return render(request, 'forum/index.html')
+        return render(request, 'forum/index.html', {'pagename':'Forum'})

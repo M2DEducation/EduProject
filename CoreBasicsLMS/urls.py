@@ -39,7 +39,9 @@ urlpatterns = [
 
     # User views
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('course-management/', views.createclass, name='createclass'),
+    path('announcements/', views.announcements, name='announcements'),
+    path('course-management/', views.coursemanagement, name='coursemanagement'),
+    path('course-management/?c<courseID>', views.coursemanagement, name='coursemanagement'),
     path('notifications/', views.notifications, name='notifications'),
     path('grades/', views.grades, name='grades'),
     path('courses/', views.courses, name='courses'),

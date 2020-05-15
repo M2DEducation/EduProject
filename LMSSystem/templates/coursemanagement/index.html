@@ -1,0 +1,351 @@
+<!doctype html>
+{{ testdata }}
+<html lang="en">
+    {% include 'base-templates/headtag.html' %}
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                {% include 'base-templates/dashboard-sidebar.html' %}
+                <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
+                    {% include 'base-templates/top-navbar.html' %}
+                    <div class="container-fluid">
+                        <div class="row">
+                            {% block startingview %}
+                            {% if courseexist == "classandcourse" %}
+                            <div class="col-lg-9">
+                                <div class="mt-3 bg-white border">
+                                    <div class="p-3 h4 border-bottom">Course Stats</div>
+                                    <div class="d-flex">
+                                        <div class="mr-auto">Number Of Students</div>
+                                        <div class="mr-auto">Number Of Classes</div>
+                                        <div class="mr-auto">Number Of Assignments</div>
+                                        <div class="mr-auto">Course Average</div>
+                                    </div>
+                                </div>
+                                    {% block courseContent %}
+                                    {% for row in showcourse %}
+                                <div class="mt-3 bg-white border">
+                                    <div class="p-3 border-bottom">
+                                        <h4>Course Information</h4>
+                                    </div>
+                                    <div class="p-3 border-bottom">
+                                        <div>
+                                            <strong>Course Name</strong>
+                                        </div>
+                                        <div>
+                                            {{ row.class_name }}
+                                        </div>
+                                    </div>
+                                    <div class="p-3 border-bottom">
+                                        <div>
+                                            <strong>Instructor Name</strong>
+                                        </div>
+                                        <div>
+                                            {{ row.user.first_name }} {{ row.user.last_name }}
+                                        </div>
+                                    </div>
+                                    <div class="p-3 border-bottom">
+                                        <div>
+                                            <strong>Course Description</strong>
+                                        </div>
+                                        <div>
+                                            {{ row.class_description }}
+                                        </div>
+                                    </div>
+                                    <div class="p-3 border-bottom">
+                                        <div>
+                                            <strong>Course Photo</strong>
+                                        </div>
+                                        <div>
+                                            {% if not row.class_photo %}
+                                            No Image
+                                            {% else %}
+                                            <img src="{{ row.class_photo.url }}" alt="" class="w-25">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="p-3">
+                                        <div>
+                                            <strong>Assignment Weight</strong>
+                                        </div>
+                                        <div>
+                                            <div>Homework</div>
+                                            <div>Discussions</div>
+                                            <div>Quizzes</div>
+                                            <div>Tests</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if not row.syllabus_file %}
+                                {% else %}
+                                <div class="mt-3 bg-white border">
+                                    <div class="p-3 h4 border-bottom">Syllabus</div>
+                                    <div class="p-3">
+                                        <object width="100%" height="500px" data="{{ row.syllabus_file.url }}">
+                                            <p>The PDF Cannot Be Displayed</p>
+                                        </object>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endblock %}
+                                <div class="mt-3 bg-white border">
+                                    <div class="p-3 border-bottom d-flex">
+                                        <div class="mr-auto">
+                                            <h4>Assignments</h4>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-info" data-toggle="modal" data-target="#newAssignment">Create New Assignment</button>
+                                            <!-- <button class="btn btn-warning">Bulk Upload</button> -->
+                                            <!-- <div class="text-right m-1"><a href="">Click to Download Bulk Template</a></div> -->
+                                        </div>
+                                    </div>
+                                    <table class="table table-hover table-responsive-lg m-0">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Assignment Name</th>
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Due Date</th>
+                                            <th scope="col">Points</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Attachments</th>
+                                            <th scope="col">Assignment Status</th>
+                                            <th scope="col">Student Status</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% block assignmentList %}
+                                            {% for row in listassignments %}
+                                            <tr>
+                                                <th scope="row">{{ row.assignment_name }}</th>
+                                                <td>
+                                                    <a href=""><i class="far fa-edit"></i></a>
+                                                    <a href=""><i class="fas fa-binoculars"></i></a>
+                                                    <a href=""><i class="fa fa-trash"></i></a>
+                                                </td>
+                                                <td>{{ row.due_date }}</td>
+                                                <td>{{ row.point_value }} Points</td>
+                                                <td>{{ row.assignment_type }}</td>
+                                                {% if not row.assignment_files %}
+                                                <td>No files</td>
+                                                {% else %}
+                                                <td><a href="{{ row.assignment_files.url }}" download>Download File</a></td>
+                                                {% endif %}
+                                                <td><span class="badge badge-success">{{ row.assignment_status }}</span></td>
+                                                <td>
+                                                    <div>Turned In: 10</div>
+                                                    <div>Pending: 30</div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endblock %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3 bg-white border">
+                                    <div class="p-3 border-bottom">
+                                        <h4>Students</h4>
+                                    </div>                                    
+                                    <table class="table table-hover table-responsive-lg m-0">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Student Name</th>
+                                            <th scope="col">Class</th>
+                                            <th scope="col">Student Status</th>
+                                            <th scope="col">Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% block liststudents %}
+                                            {% for row in liststudents %}
+                                            <tr>
+                                                <th scope="row">{{ row.user.first_name }} {{ row.user.last_name }}</th>
+                                                <td>{{ row.code_id.class_group_name }}</td>
+                                                <td><span class="badge badge-success">Up To Date</span></td>
+                                                <td>
+                                                    <a href=""><i class="far fa-envelope"></i></a>
+                                                    <a href=""><i class="fas fa-binoculars"></i></a>
+                                                    <a href=""><i class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endblock %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="mt-3 bg-white border">
+                                    <div class="p-3 border-bottom">
+                                        <div class="h4 m-0">Select Course</div>
+                                    </div>
+                                    {% block courseListAll %}
+                                    {% for row in listclasses %}
+                                    <div class="p-3 border-top d-flex">
+                                        <div class="mr-auto"><a href="?c={{ row.class_id }}">{{ row.class_name }}</a></div>
+                                        <div class=""><span class="badge badge-success">Published</button></div>
+                                    </div>
+                                    {% endfor %}
+                                    {% endblock %}
+                                    <button class="btn btn-info btn-lg w-100" style="border-radius: 0px!important;" data-toggle="modal" data-target="#newCourse">Create New Course</button>
+                                </div>
+                            </div>
+                            {% elif courseexist == "course" %}
+                            <div class="col-lg-12">
+                                <div class="mt-3 bg-white border">
+                                    <div class="p-3 border-bottom d-flex">
+                                        <div class="h4 m-0">Select Course</div>
+                                        <div class="ml-auto"><button class="btn btn-info w-100" data-toggle="modal" data-target="#newCourse">Create New Course</button></div>
+                                    </div>
+                                    {% block courseList %}
+                                    {% for row in listclasses %}
+                                    <div class="border-top" style="background:white;">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                {% if not row.class_photo %}
+                                                <img src="https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" class="w-100">
+                                                {% else %}
+                                                <img src="{{ row.class_photo.url }}" alt="" class="w-100">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="h4 mt-2 p-3">
+                                                    {{ row.class_name }}
+                                                </div>
+                                                <div class="p-3">
+                                                    <div>3 Classes</div>
+                                                    <div>50 Total Students</div>
+                                                    <div>34 Total Assignments</div>
+                                                    <div>5 Total Announcements</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="p-3">
+                                                    <a class="text-dark display-4" style="text-decoration:none;" href=""><strong>95%</strong></a>
+                                                    Course Avg.
+                                                </div>
+                                                <div class="p-3">
+                                                    <a href="?c={{ row.class_id }}" class="btn btn-lg btn-info">Select Course</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% endblock %}
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="col-lg-12">
+                                <div class="mt-3 bg-white border">
+                                    <div class="p-3 border-bottom">
+                                        <div class="h4 m-0">Create Course</div>
+                                    </div>
+                                    <div class="p-3 border-top">
+                                        <button class="btn btn-info btn-lg w-100" style="border-radius: 0px!important;" data-toggle="modal" data-target="#newCourse">Create New Course</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- New Course Form -->
+        <div class="modal fade" id="newCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create a Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row mt-3">
+                                <div class="col-lg-12">
+                                    <div class="mb-3 p-3 border rounded bg-white">
+                                        <div class="h5">Course Information</div>
+                                        <hr>
+                                        {% block content %}
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            {% for field in newclassform %}
+                                            <div class="form-group">
+                                            <label>{{ field.label }}</label>
+                                            {{ field }}
+                                            {% if field.help_text %}
+                                                <small style="color: grey">{{ field.help_text }}</small>
+                                            {% endif %}
+                                            {% for error in field.errors %}
+                                                <p style="color: red">{{ error }}</p>
+                                            {% endfor %}
+                                            </div>
+                                            {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="newclass" class="btn btn-primary">Create</button>
+                    </form>
+                    {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- New Assignment Form -->
+        <div class="modal fade" id="newAssignment" tabindex="-1" role="dialog" aria-labelledby="newAssignment" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create a Course</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row mt-3">
+                                <div class="col-lg-12">
+                                    <div class="mb-3 p-3 border rounded bg-white">
+                                        <div class="h5">Course Information</div>
+                                        <hr>
+                                        {% block newAssignment %}
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            {% for field in newAssignment %}
+                                            <div class="form-group">
+                                            <label>{{ field.label }}</label>
+                                            {{ field }}
+                                            {% if field.help_text %}
+                                                <small style="color: grey">{{ field.help_text }}</small>
+                                            {% endif %}
+                                            {% for error in field.errors %}
+                                                <p style="color: red">{{ error }}</p>
+                                            {% endfor %}
+                                            </div>
+                                            {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="createassignment" class="btn btn-primary">Create</button>
+                    </form>
+                    {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modals -->
+        
+        {% include 'base-templates/footer.html' %}
+    </body>
+</html>

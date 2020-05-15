@@ -37,21 +37,7 @@
             <div class="row">
                 {% include 'base-templates/dashboard-sidebar.html' %}
                 <div class="col-lg-10 pl-0 pr-0" style="background: #EAEBEC;">
-                    <nav class="navbar navbar-light border-bottom">
-                        <span class="navbar-brand">
-                            Dashboard
-                        </span>
-                        <span class="form-inline">
-                            <a class="text-dark mr-3" href="{% url 'profile' %}"><i class="far fa-user-circle"></i></a>
-                            <a class="text-dark mr-3" href="{% url 'notifications' %}"><i class="far fa-bell"></i></a>
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-                            <form action="{% url 'logoutuser' %}" method="POST" class="ml-3">
-                                {% csrf_token %}
-                                <button class="btn btn-danger" type="submit">Logout</button>
-                            </form>
-                        </span>
-                    </nav>
+                    {% include 'base-templates/top-navbar.html' %}
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-12">
@@ -61,52 +47,172 @@
                                         <span><i class="fas fa-times text-dark"></i></span>
                                     </div>
                                 </div>
+                                {% if request.user.profile.role == "Supervisor" or request.user.profile.role == "Teacher" or request.user.profile.role == "Student" %}
+                                <div class="alert alert-warning border m-3" role="alert">
+                                    <div class="d-flex">
+                                        <span class="mr-3">Field Trip Money Due</span>
+                                        <span class="mr-auto"><a href="">Go to Payments</a></span>
+                                        <span><i class="fas fa-times text-dark"></i></span>
+                                    </div>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
-                        <div class="row">
+                        {% if request.user.profile.role == "Supervisor" or request.user.profile.role == "Teacher" or request.user.profile.role == "Student" %}
+                        <!-- <div class="row">
                             <div class="col-lg-12">
                                 <div class="m-3">
                                     <div class="card-deck text-white text-right">
-                                            <div class="card" style="background:#2F9EBC;">
-                                                <div class="card-body">
-                                                    <a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><i class="fas fa-chalkboard-teacher fa-w-16 fa-5x float-left"></i></a>
-                                                    <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><strong>3</strong></a></p>
-                                                    <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}">Courses</a></p>
-                                                </div>
+                                        <div class="card" style="background:#2F9EBC;">
+                                            <div class="card-body">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><i class="fas fa-chalkboard-teacher fa-w-16 fa-5x float-left"></i></a>
+                                                <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><strong>3</strong></a></p>
+                                                <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}">Courses</a></p>
                                             </div>
-                                            <div class="card" style="background:#8D4293;">
-                                                <div class="card-body">
-                                                    <a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><i class="fas fa-user-graduate fa-w-16 fa-5x float-left"></i></a>
-                                                    <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><strong>84</strong></a></p>
-                                                    <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'students' %}">Students</a></p>
-                                                </div>
+                                        </div>
+                                        <div class="card" style="background:#8D4293;">
+                                            <div class="card-body">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><i class="fas fa-user-graduate fa-w-16 fa-5x float-left"></i></a>
+                                                <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><strong>84</strong></a></p>
+                                                <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'students' %}">Students</a></p>
                                             </div>
-                                            <div class="card" style="background:#EB6855;">
-                                                <div class="card-body">
-                                                    <a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}"><i class="fas fa-tasks fa-w-16 fa-5x float-left"></i></a>
-                                                    <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}"><strong>94</strong></a></p>
-                                                    <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}">Assignments</a></p>
-                                                </div>
+                                        </div>
+                                        <div class="card" style="background:#EB6855;">
+                                            <div class="card-body">
+                                                <a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}"><i class="fas fa-tasks fa-w-16 fa-5x float-left"></i></a>
+                                                <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}"><strong>94</strong></a></p>
+                                                <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}">Assignments</a></p>
                                             </div>
-                                            <div class="card" style="background:#399290;">
-                                                <div class="card-body">
-                                                    <a class="text-white" style="text-decoration:none;" href=""><i class="fas fa-percent fa-w-16 fa-5x float-left"></i></a>
-                                                    <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href=""><strong>95%</strong></a></p>
-                                                    <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="">Class Average</a></p>
-                                                </div>
+                                        </div>
+                                        <div class="card" style="background:#399290;">
+                                            <div class="card-body">
+                                                <a class="text-white" style="text-decoration:none;" href=""><i class="fas fa-percent fa-w-16 fa-5x float-left"></i></a>
+                                                <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href=""><strong>95%</strong></a></p>
+                                                <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="">Class Average</a></p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
+                        {% endif %}
                         <div class="row">
                             <div class="col-lg-8">
+                                <!-- Critical Announcements -->
+                                <div class="m-3 border rounded announcements-header alert-danger">
+                                    <div class="d-flex bd-highlight border-bottom bg-danger text-white">
+                                        <div class="bd-highlight h5 m-0 p-3">
+                                            Critical Announcements
+                                        </div>
+                                        <div class="ml-auto bd-highlight pt-3 pb-3">
+                                            <span class="border-left border-primary m-2" style="border-left-width: 3px !important;"></span> Principle
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3">
+                                            <span class="border-left border-warning m-2" style="border-left-width: 3px !important;"></span> Teacher
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3 pr-3">
+                                            <span class="border-left border-info m-2" style="border-left-width: 3px !important;"></span> Student
+                                        </div>
+                                    </div>
+                                    <div class="critical-alert-content">
+                                        <!-- begin class loop -->
+                                        <div class="d-flex bd-highlight border-bottom">
+                                            <div class="p-2 bd-highlight border-left border-info m-2" style="border-left-width: 3px !important;">
+                                                <div class="text-center">
+                                                    <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/e8/e879127befd18f6dcbd2f336234b62b393348c74_full.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                </div>
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                                <div><strong>John Wick</strong></div>
+                                                <div>
+                                                    Based on this student's current grades calculated against the rest of the assignments for this course it appears if no action is taken he will fail this course. Please reach out and seek a resolution.
+                                                </div>
+                                            </div>
+                                            <div class="ml-auto p-2 bd-highlight">
+                                                <div class="text-center text-muted">
+                                                    <small>9:45PM</small>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="far fa-envelope"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end class loop -->
+                                    </div>
+                                </div>
+                                <!-- Classes -->
+                                <div class="mt-3 ml-3 mr-3 border-top border-left border-right rounded announcements-header" style="background:white;">
+                                    <div class="d-flex bd-highlight border-bottom">
+                                        <div class="bd-highlight h5 m-0 p-3">
+                                            Courses
+                                        </div>
+                                        <div class="ml-auto bd-highlight pt-3 pb-3">
+                                            <!-- Extra info -->
+                                        </div>
+                                        <div class="bd-highlight pt-3 pb-3">
+                                            <!-- Extra info -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ml-3 mr-3 border-left border-right border-bottom quick-links" style="background:white;">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" width="100%">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="h4 mt-2">
+                                                Intro To English
+                                            </div>
+                                            <div class="">
+                                                <div>3 Classes</div>
+                                                <div>50 Total Students</div>
+                                                <div>34 Total Assignments</div>
+                                                <div>5 Total Announcements</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <p class="">
+                                                <a class="text-dark display-4" style="text-decoration:none;" href=""><strong>95%</strong></a>
+                                                Course Avg.
+                                            </p>
+                                            <button class="btn btn btn-info">Open Course</button>
+                                            <button class="btn btn btn-warning">Modify Course</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ml-3 mr-3 border-left border-right border-bottom quick-links" style="background:white;">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img src="https://images.pexels.com/photos/3800834/pexels-photo-3800834.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" width="100%">
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="h4 mt-2">
+                                                Intro To Spanish
+                                            </div>
+                                            <div class="">
+                                                <div>3 Classes</div>
+                                                <div>50 Total Students</div>
+                                                <div>34 Total Assignments</div>
+                                                <div>5 Total Announcements</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <p class="">
+                                                <a class="text-dark display-4" style="text-decoration:none;" href="">
+                                                    <strong>87%</strong>
+                                                </a>
+                                                Course Avg.
+                                            </p>
+                                            <button class="btn btn btn-info">Open Course</button>
+                                            <button class="btn btn btn-warning">Modify Course</button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!-- Announcements -->
                                 <div class="m-3 border rounded announcements-header" style="background:white;">
                                     <div class="d-flex bd-highlight border-bottom">
                                         <div class="bd-highlight h5 m-0 p-3">
-                                            Announcements
+                                            General Announcements
                                         </div>
                                         <div class="ml-auto bd-highlight pt-3 pb-3">
                                             <span class="border-left border-primary m-2" style="border-left-width: 3px !important;"></span>Principle
@@ -195,6 +301,7 @@
                                         </div>
                                         <!-- end announcement loop -->
                                     </div>
+                                    <button class="btn btn-info text-center w-100">Read More</button>
                                 </div>
                                 <!-- Direct Messages -->
                                 <div class="m-3 border rounded announcements-header" style="background:white;">
@@ -256,6 +363,7 @@
                                         </div>
                                         <!-- end message loop -->
                                     </div>
+                                    <button class="btn btn-info text-center w-100">Read More</button>
                                 </div>
 
                                 <div class="m-3 border rounded announcements-header" style="background:white;">
@@ -310,6 +418,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <button class="btn btn-info text-center w-100">View More</button>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -334,6 +443,64 @@
                                         <a href="{% url 'dashboard' %}" class="text-dark" style="text-decoration:none;">
                                         <i class="fas fa-chart-line"></i> Reports
                                     </a>
+                                    </div>
+                                </div>
+                                <div class="m-3 p-3 border rounded quick-links" style="background:white;">
+                                    <div class="h5">
+                                        Overall Stats
+                                    </div>
+                                    <div class="p-2 border-top text-dark">
+                                        <div class="h5">Overall Success</div>
+                                        (USE CIRCLE GRAPH)
+                                        <div class="d-flex">
+                                            <div class="mr-auto">
+                                                <i class="fas fa-user-check text-success fa-w-20 fa-5x"></i><br>
+                                                <strong>30 Passing</strong>
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-user-times text-danger fa-w-20 fa-5x"></i><br>
+                                                <strong>15 Failing</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 border-top text-dark">
+                                        <div class="h5">Courses</div>
+                                        <div class="d-flex">
+                                            <a class="text-dark" style="text-decoration:none;" href="{% url 'courses' %}"><i class="fas fa-chalkboard-teacher fa-w-16 fa-5x float-left"></i></a>
+                                            <div class="display-4 ml-3">
+                                                <strong>5</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="m-3" style="">
+                                    <div class="card" style="background:#2F9EBC;">
+                                        <div class="card-body">
+                                            <a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><i class="fas fa-chalkboard-teacher fa-w-16 fa-5x float-left"></i></a>
+                                            <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}"><strong>3</strong></a></p>
+                                            <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'courses' %}">Courses</a></p>
+                                        </div>
+                                    </div>
+                                    <div class="card" style="background:#8D4293;">
+                                        <div class="card-body">
+                                            <a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><i class="fas fa-user-graduate fa-w-16 fa-5x float-left"></i></a>
+                                            <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'students' %}"><strong>84</strong></a></p>
+                                            <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'students' %}">Students</a></p>
+                                        </div>
+                                    </div>
+                                    <div class="card" style="background:#EB6855;">
+                                        <div class="card-body">
+                                            <a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}"><i class="fas fa-tasks fa-w-16 fa-5x float-left"></i></a>
+                                            <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}"><strong>94</strong></a></p>
+                                            <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="{% url 'assignments' %}">Assignments</a></p>
+                                        </div>
+                                    </div>
+                                    <div class="card" style="background:#399290;">
+                                        <div class="card-body">
+                                            <a class="text-white" style="text-decoration:none;" href=""><i class="fas fa-percent fa-w-16 fa-5x float-left"></i></a>
+                                            <p class="mt-3 card-text display-4"><a class="text-white" style="text-decoration:none;" href=""><strong>95%</strong></a></p>
+                                            <p class="mt-3 card-text h5"><a class="text-white" style="text-decoration:none;" href="">Class Average</a></p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="m-3 p-3 border rounded upcoming-assignments bg-info text-white">

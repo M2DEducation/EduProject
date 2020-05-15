@@ -42,16 +42,16 @@ class ClassList(models.Model):
 
 class ClassSyllabus(models.Model):
     syllabus_id = models.AutoField(primary_key=True)
-    class_id
-    user
-    syllabus_file_url #or else use the below
-    class_description
-    class_learning_outcomes
-    required_materials
-    class_goals
-    class_grading_scale
-    class_prerequisites
-    class_policies
+    class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    syllabus_file = models.FileField(upload_to ='syllabus/',blank=True)
+    class_description = models.TextField(blank=False,default="N/a")
+    class_learning_outcomes = models.TextField(blank=False,default="N/a")
+    required_materials = models.TextField(blank=False,default="N/a")
+    class_goals = models.TextField(blank=False,default="N/a")
+    class_grading_scale = models.TextField(blank=False,default="N/a")
+    class_prerequisites = models.TextField(blank=False,default="N/a")
+    class_policies = models.TextField(blank=False,default="N/a")
 
 # Below will populate in the syllabus section if no file url used
 class ClassLessons(models.Model):
