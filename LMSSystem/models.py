@@ -4,6 +4,14 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 
+# Admin Models
+class m2dAnnouncements(models.Model):
+    m2dannouncement_id = models.AutoField(primary_key=True)
+    message_content = models.TextField(blank=False,default="Announcement Coming Soon")
+    message_expiration_date = models.DateField(auto_now=False, auto_now_add=False)
+    date_created = models.DateField(auto_now=True)
+
+# School Models
 class Profile(models.Model):
     ROLE_CHOICES = (
         ('Student', 'Student'),
@@ -29,7 +37,7 @@ def update_profile_signal(sender, instance, created, **kwargs):
 
 class ClassList(models.Model):
     class_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="classlist")
     class_name = models.CharField(max_length=100, blank=False, default="Pending")
     class_subject = models.CharField(max_length=100, blank=False, default="Pending")
     class_description = models.TextField(blank=False,default="Pending")
@@ -57,11 +65,6 @@ class ClassListGroup(models.Model):
     class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="codeassignment")
 
-class AssignmentType(models.Model):
-    assignment_type_id = models.AutoField(primary_key=True)
-    class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
-    assignment_type = models.CharField(max_length=100, blank=False, null=False, default="None")
-
 class Assignments(models.Model):
     STATUS_CHOICES = (
         ('Pending', 'Pending'),
@@ -70,6 +73,7 @@ class Assignments(models.Model):
     )
     TYPE_CHOICES =(
         ('File Upload','File Upload'),
+        ('Homework','Homework'),
         ('Discussion','Discussion'),
         ('Quiz','Quiz'),
         ('Test','Test'),
@@ -83,3 +87,30 @@ class Assignments(models.Model):
     point_value = models.IntegerField(blank=False,null=False,default=0)
     assignment_files = models.FileField(upload_to ='assignments/',blank=True)
     assignment_status = models.CharField(max_length=10,choices=STATUS_CHOICES, null=False, blank=False, default="Pending")
+
+class AssignmentWeight(models.Model):
+    TYPE_CHOICES =(
+        ('File Upload','File Upload'),
+        ('Homework','Homework'),
+        ('Discussion','Discussion'),
+        ('Quiz','Quiz'),
+        ('Test','Test'),
+    )
+    assignment_weight_id = models.AutoField(primary_key=True)
+    class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
+    assignment_type = models.CharField(max_length=11,choices=TYPE_CHOICES, null=False, blank=False, default="Pending")
+    assignment_weight = models.IntegerField(blank=False,null=False,default=0)
+
+class classannouncements(models.Model):
+    PIN_CHOICES =(
+        ('Yes','Yes'),
+        ('No','No'),
+    )
+    class_announcement_id = models.AutoField(primary_key=True)
+    class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
+    message_content = models.TextField(blank=False,default="Pending")
+    pinned_message = models.CharField(max_length=3,choices=PIN_CHOICES, null=False, blank=False, default="No")
+    message_expiration_date = models.DateField(auto_now=False, auto_now_add=False)
+    date_created = models.DateField(auto_now=True)
+
+# class messageSystem(models.Model):

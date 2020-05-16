@@ -50,6 +50,7 @@ class CreateNewAssignment(ModelForm):
     )
     TYPE_CHOICES =(
         ('File Upload','File Upload'),
+        ('Homework','Homework'),
         ('Discussion','Discussion'),
         ('Quiz','Quiz'),
         ('Test','Test'),

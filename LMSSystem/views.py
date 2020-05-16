@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_text
 from django.contrib.auth.models import User
-from .models import Profile, ClassList, ClassListGroupCode, ClassListGroup, Assignments, AssignmentType
+from .models import m2dAnnouncements, Profile, ClassList, ClassListGroupCode, ClassListGroup, Assignments, AssignmentWeight, classannouncements
 from django.db import IntegrityError
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -130,18 +130,20 @@ def home(request):
 def dashboard(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
+        getSysAnnouncements = m2dAnnouncements.objects.filter()
         listclasses = ClassList.objects.filter(user=request.user)
         liststudents = ClassListGroup.objects.filter(class_id=listclasses)
+        getClassAnnouncements = classannouncements.objects.filter(class_id__in=(listclasses),pinned_message="Yes")
         # listassignments = Assignments.objects.filter(class_id=course)
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'listclasses':listclasses})
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses})
         # Teacher View
         if role == "Teacher":
-            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'listclasses':listclasses})
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses})
         # Student View
         if role == "Student":
-            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'listclasses':listclasses})
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses})
     else:
         return redirect('home')
         
@@ -275,6 +277,7 @@ def coursemanagement(request):
             listclasses = ClassList.objects.filter(user=request.user)
             liststudents = ClassListGroup.objects.filter(class_id=course)
             listassignments = Assignments.objects.filter(class_id=course)
+            assignmentweights = AssignmentWeight.objects.filter(class_id=course)
             if listclasses and course:
                 showcourse = ClassList.objects.filter(user=request.user,class_id=course)
                 return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"classandcourse",'listclasses':listclasses,'liststudents':liststudents,'listassignments':listassignments,'showcourse':showcourse,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
