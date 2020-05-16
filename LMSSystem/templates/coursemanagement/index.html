@@ -69,11 +69,13 @@
                                             <strong>Assignment Weight</strong>
                                         </div>
                                         <div>
-                                            <div>Homework</div>
-                                            <div>Discussions</div>
-                                            <div>Quizzes</div>
-                                            <div>Tests</div>
+                                            {% if assignmentweights %}
+                                            {% for row in assignmentweights %}
+                                            <div>{{ row.assignment_type }} - {{ row.assignment_weight}}%</div>
+                                            {% endfor %}
+                                            {% endif %}
                                         </div>
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#addWeight">Add Weight</button>
                                     </div>
                                 </div>
                                 {% if not row.syllabus_file %}
@@ -338,6 +340,52 @@
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" name="createassignment" class="btn btn-primary">Create</button>
+                    </form>
+                    {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- New Weight Form -->
+        <div class="modal fade" id="addWeight" tabindex="-1" role="dialog" aria-labelledby="newAssignment" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Weight</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row mt-3">
+                                <div class="col-lg-12">
+                                    <div class="mb-3 p-3 border rounded bg-white">
+                                        <div class="h5">Add New Assignment Weight</div>
+                                        <hr>
+                                        {% block createweight %}
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            {% for field in createweight %}
+                                            <div class="form-group">
+                                            <label>{{ field.label }}</label>
+                                            {{ field }}
+                                            {% if field.help_text %}
+                                                <small style="color: grey">{{ field.help_text }}</small>
+                                            {% endif %}
+                                            {% for error in field.errors %}
+                                                <p style="color: red">{{ error }}</p>
+                                            {% endfor %}
+                                            </div>
+                                            {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="createweight" class="btn btn-primary">Create</button>
                     </form>
                     {% endblock %}
                     </div>

@@ -36,7 +36,7 @@ def update_profile_signal(sender, instance, created, **kwargs):
     instance.profile.save()
 
 class ClassList(models.Model):
-    class_id = models.AutoField(primary_key=True)
+    class_id = models.AutoField(primary_key=True,)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="classlist")
     class_name = models.CharField(max_length=100, blank=False, default="Pending")
     class_subject = models.CharField(max_length=100, blank=False, default="Pending")

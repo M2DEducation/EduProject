@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from .models import ClassList, Assignments
+from .models import ClassList, Assignments, AssignmentWeight
 
 class SignUpForm(UserCreationForm):
     ROLE_CHOICES = (
@@ -66,3 +66,18 @@ class CreateNewAssignment(ModelForm):
     class Meta:
         model = Assignments
         fields = ['assignment_name','assignment_description','due_date','point_value', 'assignment_files', 'assignment_status']
+
+class CreateAssignmentWeight(ModelForm):
+    TYPE_CHOICES =(
+        ('File Upload','File Upload'),
+        ('Homework','Homework'),
+        ('Discussion','Discussion'),
+        ('Quiz','Quiz'),
+        ('Test','Test'),
+    )
+    assignment_type = forms.ChoiceField(choices=TYPE_CHOICES,widget=forms.Select(attrs={'class': 'form-control','placeholder':''}))
+    assignment_weight = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control','placeholder':'Enter Weight Value...'}))
+
+    class Meta:
+        model = AssignmentWeight
+        fields = ['assignment_type','assignment_weight']

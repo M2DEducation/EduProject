@@ -12,7 +12,7 @@ from django.utils.http import urlsafe_base64_encode
 from .tokens import account_activation_token
 from django.template.loader import render_to_string
 from django.contrib.auth.models import Group
-from .forms import SignUpForm, LoginForm, CreateNewClass, CreateNewAssignment
+from .forms import SignUpForm, LoginForm, CreateNewClass, CreateNewAssignment, CreateAssignmentWeight
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
@@ -280,17 +280,17 @@ def coursemanagement(request):
             assignmentweights = AssignmentWeight.objects.filter(class_id=course)
             if listclasses and course:
                 showcourse = ClassList.objects.filter(user=request.user,class_id=course)
-                return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"classandcourse",'listclasses':listclasses,'liststudents':liststudents,'listassignments':listassignments,'showcourse':showcourse,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
+                return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"classandcourse",'listclasses':listclasses,'liststudents':liststudents,'listassignments':listassignments,'assignmentweights':assignmentweights,'showcourse':showcourse,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment(),'createweight':CreateAssignmentWeight()})
             elif listclasses:
                 return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"course",'listclasses':listclasses,'listassignments':listassignments,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
             else:
-                return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"none",'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})                
+                return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"none",'newclassform':CreateNewClass()})                
         else:
             course = request.GET.get('c')
             listclasses = ClassList.objects.filter(user=request.user)
             listassignments = Assignments.objects.filter(class_id=course)
             getcourse_id = ClassList.objects.get(class_id=course)
-
+            assignmentweights = AssignmentWeight.objects.filter(class_id=course)
             if request.method == "POST" and 'newclass' in request.POST:
                 form = CreateNewClass(request.POST, request.FILES)
                 if form.is_valid():
@@ -298,9 +298,9 @@ def coursemanagement(request):
                         newclass = form.save(commit=False)
                         newclass.user = request.user
                         newclass.save()
-                        showcourse = ClassList.objects.filter(user=request.user,class_id=course)
-                        if listclasses and course:
-                            return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"classandcourse",'listclasses':listclasses,'listassignments':listassignments,'showcourse':showcourse,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
+                        getNewCourse = ClassList.objects.get(class_id=newclass.pk).pk
+                        setreturn = '/course-management/?c='+str(getNewCourse)
+                        return redirect(setreturn)                            
                     except ValueError:
                         return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','listclasses':listclasses,'listassignments':listassignments,'form':CreateNewClass(), 'error':'Data is bad please retry','newAssignment':CreateNewAssignment()})
             elif request.method == "POST" and 'createassignment' in request.POST:
@@ -310,11 +310,20 @@ def coursemanagement(request):
                         newassignment = form.save(commit=False)
                         newassignment.class_id = getcourse_id
                         newassignment.save()
-                        showcourse = ClassList.objects.filter(user=request.user,class_id=course)
                         if listclasses and course:
-                            return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','courseexist':"classandcourse",'listclasses':listclasses,'listassignments':listassignments,'showcourse':showcourse,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
+                            return redirect('/course-management/?c='+course)
                     except ValueError:
                         return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','listclasses':listclasses,'listassignments':listassignments,'form':CreateNewClass(), 'error':'Data is bad please retry','newAssignment':CreateNewAssignment()})       
+            elif request.method == "POST" and 'createweight' in request.POST:
+                form = CreateAssignmentWeight(request.POST)
+                if form.is_valid():
+                    try:
+                        newweight = form.save(commit=False)
+                        newweight.class_id = getcourse_id
+                        newweight.save()
+                        return redirect('/course-management/?c='+course)
+                    except ValueError:
+                        return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','listclasses':listclasses,'listassignments':listassignments,'form':CreateNewClass(), 'error':'Data is bad please retry','newAssignment':CreateNewAssignment(), 'createweight':CreateAssignmentWeight()})       
             else:
                 return render(request, 'coursemanagement/index.html', {'pagename':'Course Management','listclasses':listclasses,'listassignments':listassignments,'newclassform':CreateNewClass(),'newAssignment':CreateNewAssignment()})
 
