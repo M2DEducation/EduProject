@@ -132,18 +132,18 @@ def dashboard(request):
         role = request.user.profile.role
         getSysAnnouncements = m2dAnnouncements.objects.filter()
         listclasses = ClassList.objects.filter(user=request.user)
-        liststudents = ClassListGroup.objects.filter(class_id=listclasses)
-        getClassAnnouncements = classannouncements.objects.filter(class_id__in=(listclasses),pinned_message="Yes")
+        liststudents = ClassListGroup.objects.filter(class_id__in=listclasses)
+        getClassAnnouncements = classannouncements.objects.filter(class_id__in=(listclasses))
         # listassignments = Assignments.objects.filter(class_id=course)
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses})
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses, 'liststudents':liststudents})
         # Teacher View
         if role == "Teacher":
-            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses})
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses, 'liststudents':liststudents})
         # Student View
         if role == "Student":
-            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses})
+            return render(request, 'dashboard/index.html', {'pagename':'Dashboard', 'systemannouncements':getSysAnnouncements, 'classannouncements':getClassAnnouncements, 'listclasses':listclasses, 'liststudents':liststudents})
     else:
         return redirect('home')
         
@@ -292,12 +292,21 @@ def coursemanagement(request):
             getcourse_id = ClassList.objects.get(class_id=course)
             assignmentweights = AssignmentWeight.objects.filter(class_id=course)
             if request.method == "POST" and 'newclass' in request.POST:
+                # find new code
+                # getNewCode = ""
+                # while True:
+                #     getNewCode = get_random_string(length=32)
+                #     checkCodeExist = ClassListGroupCode.objects.filter(class_group_code=getNewCode)
+                #     if checkCodeExist is None:
+                #         break;
+                # start form
                 form = CreateNewClass(request.POST, request.FILES)
                 if form.is_valid():
                     try:
                         newclass = form.save(commit=False)
                         newclass.user = request.user
                         newclass.save()
+
                         getNewCourse = ClassList.objects.get(class_id=newclass.pk).pk
                         setreturn = '/course-management/?c='+str(getNewCourse)
                         return redirect(setreturn)                            

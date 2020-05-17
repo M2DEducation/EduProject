@@ -6,8 +6,15 @@ from django.utils.crypto import get_random_string
 
 # Admin Models
 class m2dAnnouncements(models.Model):
+    IMPORTANCE_CHOICES = (
+        ('General','General'),
+        ('Important','Important'),
+        ('Critical','Critical'),
+    )
     m2dannouncement_id = models.AutoField(primary_key=True)
+    message_importance = models.CharField(max_length=9,choices=IMPORTANCE_CHOICES, blank=False, default="General")
     message_content = models.TextField(blank=False,default="Announcement Coming Soon")
+    message_attachments = models.FileField(upload_to ='system/',blank=True)
     message_expiration_date = models.DateField(auto_now=False, auto_now_add=False)
     date_created = models.DateField(auto_now=True)
 
@@ -57,7 +64,7 @@ class ClassListGroupCode(models.Model):
     code_id = models.AutoField(primary_key=True)
     class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
     class_group_name = models.CharField(max_length=100, blank=False, default="Class 1")
-    class_group_code = models.CharField(max_length=32, blank=False, default=get_random_string(length=32))
+    class_group_code = models.CharField(max_length=32, blank=False, default="00000000000000000000000000000000")
 
 class ClassListGroup(models.Model):
     class_group_id = models.AutoField(primary_key=True)
@@ -101,16 +108,81 @@ class AssignmentWeight(models.Model):
     assignment_type = models.CharField(max_length=11,choices=TYPE_CHOICES, null=False, blank=False, default="Pending")
     assignment_weight = models.IntegerField(blank=False,null=False,default=0)
 
+class Question(models.Model):
+    TYPE_CHOICES =(
+        ('Multiple Choice','Multiple Choice'),
+        ('Fill In The Blank','Fill In The Blank'),
+        ('Short Response','Short Response'),
+        ('Essay','Essay'),
+        ('Pending','Pending'),
+    )
+    question_id = models.AutoField(primary_key=True)
+    assignment_type = models.ForeignKey(Assignments, on_delete=models.CASCADE)
+    question_type = models.CharField(max_length=17,choices=TYPE_CHOICES, null=False, blank=False, default="Pending")
+    question = models.TextField(blank=False,default="Pending")
+    is_active = models.BooleanField(blank=False,default=True)
+
+class Question_choices(models.Model):
+    choice_id = models.AutoField(primary_key=True)
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
+    is_right_choice = models.BooleanField(blank=False,default=False)
+    answer = models.TextField(blank=False,default="Pending")
+
+class User_question_answer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_id = models.ForeignKey(Question_choices, on_delete=models.CASCADE, related_name="questionchoice")
+    is_right_choice = models.ForeignKey(Question_choices, on_delete=models.CASCADE)
+    answer_time = models.DateTimeField()
+
 class classannouncements(models.Model):
     PIN_CHOICES =(
         ('Yes','Yes'),
         ('No','No'),
     )
+    IMPORTANCE_CHOICES = (
+        ('General','General'),
+        ('Important','Important'),
+        ('Critical','Critical'),
+    )
+    MESSAGE_TYPE = (
+        ('Assignment Posted','Assignment Posted'),
+        ('General Announcement','General Announcement'),
+        ('Class Cancelled','Class Cancelled'),
+    )
     class_announcement_id = models.AutoField(primary_key=True)
     class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
     message_content = models.TextField(blank=False,default="Pending")
-    pinned_message = models.CharField(max_length=3,choices=PIN_CHOICES, null=False, blank=False, default="No")
+    message_type = models.CharField(max_length=30,choices=MESSAGE_TYPE, blank=False, default="General Announcement")
+    message_importance = models.CharField(max_length=9,choices=IMPORTANCE_CHOICES, blank=False, default="General")
+    pinned_message = models.CharField(max_length=3,choices=PIN_CHOICES, blank=False, default="No")
     message_expiration_date = models.DateField(auto_now=False, auto_now_add=False)
     date_created = models.DateField(auto_now=True)
 
-# class messageSystem(models.Model):
+class GroupMessageChat(models.Model):
+    group_chat_id = models.AutoField(primary_key=True)
+    class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
+    class_group_id = models.ForeignKey(ClassListGroup, on_delete=models.CASCADE)
+    assignment_id = models.ForeignKey(Assignments, on_delete=models.CASCADE)
+    date_created = models.DateField(auto_now=True)
+
+class GroupChatMembers(models.Model):
+    group_chat_id = models.ForeignKey(GroupMessageChat, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class GroupChatMessages(models.Model):
+    PIN_CHOICES =(
+        ('Yes','Yes'),
+        ('No','No'),
+    )
+    group_msg_id = models.AutoField(primary_key=True)
+    group_chat_id = models.ForeignKey(GroupMessageChat, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message_content = models.TextField(blank=False,default="Pending")
+    pinned_message = models.CharField(max_length=3,choices=PIN_CHOICES, null=False, blank=False, default="No")
+    msg_dts = models.DateTimeField(auto_now_add=True)
+
+class UserMessageGroupActions(models.Model):
+    group_msg_id = models.ForeignKey(GroupChatMessages, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_read = models.BooleanField(blank=False,default=False)

@@ -42,6 +42,7 @@ urlpatterns = [
     path('announcements/', views.announcements, name='announcements'),
     path('course-management/', views.coursemanagement, name='coursemanagement'),
     path('course-management/?c<courseID>', views.coursemanagement, name='coursemanagement'),
+    path('course-management/?c<courseID>&q=<quizId>', views.coursemanagement, name='coursemanagement'),
     path('notifications/', views.notifications, name='notifications'),
     path('grades/', views.grades, name='grades'),
     path('courses/', views.courses, name='courses'),

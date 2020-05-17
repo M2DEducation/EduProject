@@ -23,12 +23,14 @@
                                 {% if classannouncements %}
                                 {% if request.user.profile.role == "Supervisor" or request.user.profile.role == "Teacher" or request.user.profile.role == "Student" %}
                                 {% for row in classannouncements %}
+                                {% if row.pinned_message == "Yes" %}
                                 <div class="alert alert-warning border m-3" role="alert">
                                     <div class="d-flex">
                                         <span class="mr-3">{{ row.message_content }}</span>
                                         <span class="ml-auto"><i class="fas fa-times text-dark"></i></span>
                                     </div>
                                 </div>
+                                {% endif %}
                                 {% endfor %}
                                 {% endif %}
                                 {% endif %}
@@ -91,6 +93,8 @@
                                         </div>
                                     </div>
                                     <div class="critical-alert-content">
+                                        {% for row in classannouncements %}
+                                        {% if row.message_importance == "Critical" %}
                                         <!-- begin class loop -->
                                         <div class="d-flex bd-highlight border-bottom">
                                             <div class="p-2 bd-highlight border-left border-info m-2" style="border-left-width: 3px !important;">
@@ -114,6 +118,8 @@
                                             </div>
                                         </div>
                                         <!-- end class loop -->
+                                        {% endif %}
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <!-- Classes -->
@@ -187,19 +193,25 @@
                                         </div>
                                     </div>
                                     <div class="announcements-content">
+                                        {% for row in classannouncements %}
+                                        {% if row.message_importance == "General" %}
                                         <!-- begin announcement loop -->
                                         <div class="d-flex bd-highlight border-bottom">
                                             <div class="p-2 bd-highlight border-left border-warning m-2" style="border-left-width: 3px !important;">
                                                 <div class="text-center">
-                                                    <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                    {% if not row.class_id.user.profile.Profile_Image %}
+                                                    <div class="p-1" style="border-radius: 90px;background:gray;"><strong>{{ row.class_id.user.first_name|slice:"1" }}{{ row.class_id.user.last_name|slice:"1" }}</strong></div>
+                                                    {% else %}
+                                                    <img src="{{ row.class_id.user.profile.Profile_Image.url }}" width="40px" alt="" style="border-radius: 90px;">
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                             <div class="p-2 bd-highlight">
                                                 <div>
-                                                    <strong>Art 101: Assignment Posted</strong>
+                                                    <strong>{{ row.class_id.class_name }}: {{ row.message_type }}</strong>
                                                 </div>
                                                 <div>
-                                                    Art Assignment has been posted. Click this notification to access the assignment.
+                                                    {{ row.message_content }}
                                                 </div>
                                             </div>
                                             <div class="ml-auto p-2 bd-highlight">
@@ -212,6 +224,8 @@
                                             </div>
                                         </div>
                                         <!-- end announcement loop -->
+                                        {% endif %}
+                                        {% endfor %}
                                         <!-- begin announcement loop -->
                                         <div class="d-flex bd-highlight border-bottom">
                                             <div class="p-2 bd-highlight border-left border-dark m-2" style="border-left-width: 3px !important;">
@@ -339,19 +353,27 @@
                                     </div>
                                     <table class="table bg-white table-responsive-lg">
                                         <tbody>
+                                            {% if liststudents %}
+                                            {% for row in liststudents %}
                                             <tr>
                                                 <td class="align-middle">
-                                                    <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
+                                                    {% if not row.class_id.user.profile.Profile_Image %}
+                                                    <div class="p-1 text-center" style="width:40px;border-radius: 90px;background:gray;"><strong>{{ row.class_id.user.first_name|slice:"1" }}{{ row.class_id.user.last_name|slice:"1" }}</strong></div>
+                                                    {% else %}
+                                                    <img src="{{ row.user.profile.Profile_Image.url }}" width="40px" alt="" style="border-radius: 90px;">
+                                                    {% endif %}
                                                 </td>
-                                                <td class="align-middle">John James Rambo</td>
+                                                <td class="align-middle">{{ row.user.profile.first_name }} {{ row.user.profile.last_name }}</td>
                                                 <td class="align-middle">(123) 456-7890</td>
-                                                <td class="align-middle">rambo@rambo.com</td>
-                                                <td class="align-middle">Class 1</td>
+                                                <td class="align-middle">{{ row.user.profile.email }}</td>
+                                                <td class="align-middle">{{ row.code_id.class_group_name }}</td>
                                                 <td class="align-middle"><span class="badge badge-pill badge-success">95%</span></td>
                                                 <td class="text-center align-middle">
                                                     <i class="far fa-comments m-2"></i>
                                                 </td>
                                             </tr>
+                                            {% endfor %}
+                                            {% endif %}
                                             <tr>
                                                 <td class="align-middle">
                                                     <img src="https://www.writeups.org/wp-content/uploads/John-Rambo-Sylvester-Stallone-a.jpg" width="40px" alt="" style="border-radius: 90px;">
