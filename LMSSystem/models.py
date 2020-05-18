@@ -79,6 +79,7 @@ class Assignments(models.Model):
         ('Late', 'Late'),
     )
     TYPE_CHOICES =(
+        ('Pending','Pending'),
         ('File Upload','File Upload'),
         ('Homework','Homework'),
         ('Discussion','Discussion'),
@@ -134,6 +135,22 @@ class User_question_answer(models.Model):
     choice_id = models.ForeignKey(Question_choices, on_delete=models.CASCADE, related_name="questionchoice")
     is_right_choice = models.ForeignKey(Question_choices, on_delete=models.CASCADE)
     answer_time = models.DateTimeField()
+
+class StudentAssignments(models.Model):
+    STATUS_CHOICES =(
+        ('Not Submitted','Not Submitted'),
+        ('Submitted - Not Graded','Submitted - Not Graded'),
+        ('Graded','Graded'),
+        ('Late','Late'),
+        ('Resubmitted','Resubmitted'),
+    )
+    student_assignment_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    class_id = models.ForeignKey(ClassList, on_delete=models.CASCADE)
+    code_id = models.ForeignKey(ClassListGroupCode, on_delete=models.CASCADE)
+    assignment_id = models.ForeignKey(Assignments, on_delete=models.CASCADE)
+    assignment_grade = models.IntegerField(blank=True,null=True)
+    assignment_status = models.CharField(max_length=22,choices=STATUS_CHOICES, null=False, blank=False, default="Not Submitted")
 
 class classannouncements(models.Model):
     PIN_CHOICES =(

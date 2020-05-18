@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_text
 from django.contrib.auth.models import User
-from .models import m2dAnnouncements, Profile, ClassList, ClassListGroupCode, ClassListGroup, Assignments, AssignmentWeight, classannouncements
+from .models import m2dAnnouncements, Profile, ClassList, ClassListGroupCode, ClassListGroup, Assignments, AssignmentWeight, StudentAssignments, classannouncements
 from django.db import IntegrityError
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -167,15 +167,17 @@ def useradmin(request):
 def grades(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
+        getMyCourses = ClassList.objects.filter(user=request.user)
+        listassignments = StudentAssignments.objects.filter(class_id__in=(getMyCourses))
         # Supervisor View
         if role == "Supervisor":
-            return render(request, 'grades/index.html', {'pagename':'Grades'})
+            return render(request, 'grades/index.html', {'pagename':'Grades', 'listassignments':listassignments})
         # Supervisor View
         if role == "Teacher":
-            return render(request, 'grades/index.html', {'pagename':'Grades'})
+            return render(request, 'grades/index.html', {'pagename':'Grades', 'listassignments':listassignments})
         # If Student dont allow useradmin view
         if role == "Student":
-            return render(request, 'grades/index.html', {'pagename':'Grades'})
+            return render(request, 'grades/index.html', {'pagename':'Grades', 'listassignments':listassignments})
 
 def courses(request):
     if request.user.is_authenticated:
@@ -306,7 +308,6 @@ def coursemanagement(request):
                         newclass = form.save(commit=False)
                         newclass.user = request.user
                         newclass.save()
-
                         getNewCourse = ClassList.objects.get(class_id=newclass.pk).pk
                         setreturn = '/course-management/?c='+str(getNewCourse)
                         return redirect(setreturn)                            
@@ -319,6 +320,9 @@ def coursemanagement(request):
                         newassignment = form.save(commit=False)
                         newassignment.class_id = getcourse_id
                         newassignment.save()
+                        getMyStudents = ClassListGroup.objects.filter(class_id=getcourse_id)
+                        for row in getMyStudents:
+                            makeStudentAssignments = StudentAssignments.objects.get_or_create(class_id=getcourse_id,user=row.user,code_id=row.code_id,assignment_id=newassignment)
                         if listclasses and course:
                             return redirect('/course-management/?c='+course)
                     except ValueError:

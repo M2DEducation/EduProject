@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import m2dAnnouncements, Profile, ClassList, Assignments, AssignmentWeight, Question, Question_choices, User_question_answer, ClassListGroupCode, ClassListGroup, classannouncements
+from .models import m2dAnnouncements, Profile, ClassList, Assignments, AssignmentWeight, StudentAssignments, Question, Question_choices, User_question_answer, ClassListGroupCode, ClassListGroup, classannouncements
 
 @admin.register(m2dAnnouncements)
 class m2dAnnouncements(admin.ModelAdmin):
@@ -32,6 +32,10 @@ class Assignments(admin.ModelAdmin):
 
 @admin.register(AssignmentWeight)
 class AssignmentWeight(admin.ModelAdmin):
+    pass
+
+@admin.register(StudentAssignments)
+class StudentAssignments(admin.ModelAdmin):
     pass
 
 @admin.register(Question)

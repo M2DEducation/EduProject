@@ -49,6 +49,7 @@ class CreateNewAssignment(ModelForm):
         ('Late', 'Late'),
     )
     TYPE_CHOICES =(
+        ('Pending','Pending'),
         ('File Upload','File Upload'),
         ('Homework','Homework'),
         ('Discussion','Discussion'),

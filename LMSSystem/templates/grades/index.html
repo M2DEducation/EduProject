@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
   {% include 'base-templates/headtag.html' %}
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
     <body>
       <div class="container-fluid">
           <div class="row">
@@ -10,7 +12,6 @@
                 <div class="container-fluid">
                   <div class="row">
                     <div class="col-lg-12 p-0 bg-white">
-                      <div class="h4 ml-3 mt-3">Filter By</div>
                       <form class="form-inline m-3 d-flex">
                         <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
                           <option selected>Select Course...</option>
@@ -40,41 +41,60 @@
                           <option value="2">Not Turned In</option>
                           <option value="2">Late</option>
                         </select>
-                        <button type="submit" class="btn btn-info m-3">Refresh</button>
+                        <button type="submit" class="btn btn-info ml-3">Refresh</button>
                       </form>
                       <div>
-                        <div class="p-3 border-bottom h5 m-0">Viewing All Courses</div>
-                        <table class="table table-bordered table-striped table-hover table-sm table-responsive-lg mb-0">
+                        <table id="gradeTable" class="table-striped table-hover table-responsive-lg">
                           <thead>
                             <tr>
                               <th scope="col">Student</th>
                               <th scope="col">Course</th>
                               <th scope="col">Assignment</th>
-                              <th scope="col">Assignment Type</th>
+                              <th scope="col">Assignment&nbsp;Type</th>
                               <th scope="col">Class</th>
                               <th scope="col">Submission</th>
                               <th scope="col">Weight</th>
-                              <th scope="col">Assignment Grade</th>
-                              <th scope="col">Assignment Status</th>
-                              <th scope="col">Course Grade</th>
+                              <th scope="col">Assignment&nbsp;Grade</th>
+                              <th scope="col">Assignment&nbsp;Status</th>
+                              <th scope="col">Course&nbsp;Grade</th>
                               <th scope="col">Notifications</th>
                             </tr>
                           </thead>
                           <tbody>
+                            {% if listassignments %}
+                            {% for row in listassignments %}
                             <tr>
-                              <td><strong>John Smith</strong></td>
-                              <td>Intro To English</td>
-                              <td>English Essay</td>
-                              <td>File Upload</td>
-                              <td>Class 1</td>
-                              <td>View</td>
-                              <td>10%</td>
-                              <td>95% <i class="far fa-edit"></i></td>
-                              <td class="alert-success">Graded</td>
+                              <td><strong>{{ row.user.profile.first_name }} {{ row.user.profile.last_name }}</strong></td>
+                              <td>{{ row.class_id.class_name }}</td>
+                              <td>{{ row.assignment_id.assignment_name }}</td>
+                              <td>{{ row.assignment_id.assignment_type }}</td>
+                              <td>{{ row.code_id.class_group_name }}</td>
+                              <td><button class="btn btn-info w-100">View</button></td>
+                              <td>{{ row.assignment_id.assignment_type.assignment_weight }}%</td>
+                              {% if not row.assignment_grade %}
+                              <td>No Assignment Submission</td>
+                              {% else %}
+                              <td>{{ row.assignment_grade}} <i class="far fa-edit"></i></td>
+                              {% endif %}
+                              {% if row.assignment_status == "Not Submitted" %}
+                              <td class="alert-dark">{{ row.assignment_status }}</td>
+                              {% elif row.assignment_status == "Submitted - Not Graded" %}
+                              <td class="alert-secondary">{{ row.assignment_status }}</td>
+                              {% elif row.assignment_status == "Graded" %}
+                              <td class="alert-success">{{ row.assignment_status }}</td>
+                              {% elif row.assignment_status == "Late" %}
+                              <td class="alert-danger">{{ row.assignment_status }}</td>
+                              {% elif row.assignment_status == "Resubmitted" %}
+                              <td class="alert-warning">{{ row.assignment_status }}</td>
+                              {% else %}
+                              <td class="alert-dark">Data Issue</td>
+                              {% endif %}
                               <td>95%</td>
                               <td>None</td>
                             </tr>
-                            <tr>
+                            {% endfor %}
+                            {% endif %}
+                            <!-- <tr>
                               <td><strong>Tony Stark</strong></td>
                               <td>Intro To English</td>
                               <td>English Essay</td>
@@ -112,7 +132,7 @@
                               <td class="alert-danger">Late</td>
                               <td>95%</td>
                               <td>None</td>
-                            </tr>
+                            </tr> -->
                           </tbody>
                         </table>
                       </div>
@@ -248,5 +268,10 @@
             </div>
             </div>
         </div>
+        <script>
+          $(document).ready(function() {
+            $('#gradeTable').DataTable();
+          });
+        </script>
     </body>
 </html>
