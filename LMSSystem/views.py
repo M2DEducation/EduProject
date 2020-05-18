@@ -168,6 +168,7 @@ def grades(request):
     if request.user.is_authenticated:
         role = request.user.profile.role
         getMyCourses = ClassList.objects.filter(user=request.user)
+        
         listassignments = StudentAssignments.objects.filter(class_id__in=(getMyCourses))
         # Supervisor View
         if role == "Supervisor":

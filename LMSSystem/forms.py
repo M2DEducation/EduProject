@@ -66,7 +66,7 @@ class CreateNewAssignment(ModelForm):
 
     class Meta:
         model = Assignments
-        fields = ['assignment_name','assignment_description','due_date','point_value', 'assignment_files', 'assignment_status']
+        fields = ['assignment_name','assignment_description','assignment_type','due_date','point_value', 'assignment_files', 'assignment_status']
 
 class CreateAssignmentWeight(ModelForm):
     TYPE_CHOICES =(
